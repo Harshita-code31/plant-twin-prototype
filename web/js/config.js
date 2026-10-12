@@ -1,7 +1,7 @@
 // Settings a plant changes without touching the code.
 export const CONFIG = {
-  // Link to the SOP copilot. Leave empty until it is deployed; the "Ask SOP" buttons then show as coming soon.
-  copilotUrl: "",
+  // Link to the SOP copilot, relative to this page (same site: web/copilot/) or a full URL. Empty hides the "Ask SOP" links.
+  copilotUrl: "copilot/",
 
   // Same pass rule as the AbhyasAR Unity app (Assets/ScriptsQuiz/TrainingScoring.cs).
   passMark: 80,
