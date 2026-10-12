@@ -1,0 +1,39 @@
+{
+  "id": "SOP-GT-003",
+  "revision": "DRAFT-0.1",
+  "label": "Illustrative sample — not an approved procedure",
+  "title": "Gas testing and LEL alarms",
+  "scenario": "gas_testing",
+  "keywords": [
+    "gas testing",
+    "lel",
+    "lower explosive limit",
+    "alarm",
+    "threshold",
+    "setpoint",
+    "limit",
+    "detector",
+    "calibration",
+    "oxygen"
+  ],
+  "sections": [
+    {
+      "number": "1",
+      "heading": "Only authorised, calibrated testing",
+      "en": "Before entry or permitted work, a competent authorised gas tester uses an approved and calibrated instrument, checks its status and records readings under the site gas-testing procedure. Maintain monitoring if the permit requires it.",
+      "hi": "प्रवेश या परमिट वाले काम से पहले प्रशिक्षित अधिकृत गैस टेस्टर स्वीकृत और कैलिब्रेटेड उपकरण से गैस जाँचे, उपकरण की स्थिति देखे और साइट प्रक्रिया के अनुसार रीडिंग दर्ज करे। यदि परमिट माँगे तो लगातार मॉनिटरिंग रखें।"
+    },
+    {
+      "number": "2",
+      "heading": "LEL limits are site-specific",
+      "en": "LEL means lower explosive limit. THIS ILLUSTRATIVE SOP DOES NOT SPECIFY A NUMERIC LEL ALARM OR SHUTDOWN LIMIT. Never assume a universal alarm percentage. Obtain the plant's approved detector setpoint and action matrix from the control room or shift supervisor.",
+      "hi": "LEL का अर्थ लोअर एक्सप्लोसिव लिमिट (ज्वलनशीलता की निचली सीमा) है। इस केवल प्रशिक्षण वाले SOP में कोई संख्यात्मक LEL अलार्म या शटडाउन सीमा नहीं दी गई है। सभी प्लांट के लिए एक ही प्रतिशत न मानें। स्वीकृत सेटपॉइंट और कार्रवाई सूची कंट्रोल रूम या शिफ्ट सुपरवाइज़र से लें।"
+    },
+    {
+      "number": "3",
+      "heading": "When gas is detected or alarm sounds",
+      "en": "Treat any gas alarm as potentially hazardous. Stop affected work, alert the control room and follow the approved area evacuation and incident response plan. Do not rely on an unapproved threshold or bypass alarms.",
+      "hi": "गैस अलार्म को संभावित खतरा मानें। प्रभावित काम रोकें, कंट्रोल रूम को बताएं और स्वीकृत निकासी तथा आपात प्रतिक्रिया योजना अपनाएं। बिना स्वीकृत सीमा पर भरोसा न करें और अलार्म बायपास न करें।"
+    }
+  ]
+}
