@@ -1,1 +1,7 @@
-{"framework":null,"buildCommand":null,"installCommand":null,"outputDirectory":null,"functions":{"api/copilot.js":{"maxDuration":30}}}
+{
+  "framework": null,
+  "buildCommand": null,
+  "outputDirectory": null,
+  "functions": { "api/copilot.js": { "maxDuration": 30 } },
+  "redirects": [{ "source": "/", "destination": "/web/copilot/", "permanent": false }]
+}

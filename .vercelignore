@@ -1,0 +1,17 @@
+# Deploy only the web apps and the copilot function. The Unity project and other
+# AbhyasAR material stay in the repo but are not uploaded to Vercel.
+Assets/
+Packages/
+ProjectSettings/
+UIElementsSchema/
+CertificateTemplates/
+Tools/
+supabase/
+dashboard/
+docs/
+*.slnx
+EDITOR_STEPS.md
+skills-lock.json
+.mcp.json
+.vscode/
+node_modules/
