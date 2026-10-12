@@ -16,20 +16,32 @@ python -m http.server 8000
 ```
 Open `http://localhost:8000/web/copilot/`. The local demo retrieves sections and gives strictly extractive responses, not Claude-generated text. **Do not open with file://**: browsers block SOP JSON fetches.
 
-## Use the live Claude backend (Vercel)
-1. In Vercel: **Add New → Project → Import** `Harshita-code31/plant-twin-prototype`. Framework Preset **Other**, Root Directory = repository root (not `web/copilot`, because `api/copilot.js` lives at the root). Leave build and output settings empty. `.vercelignore` keeps the Unity project out of the deployment.
-2. **Settings → Environment Variables**: add `ANTHROPIC_API_KEY` (Production and Preview). Optional: `ANTHROPIC_MODEL` (default `claude-opus-5-5`), `ANTHROPIC_EFFORT` (default `low`; `medium` gives more careful Hindi at some extra latency), `COPILOT_RATE_LIMIT_PER_MIN` (default 20 per visitor per instance). **Never** put the key in frontend files or GitHub.
-3. Set a monthly **spend limit** for that key in the Anthropic Console: the copilot URL is public.
-4. Deploy, then open `https://YOUR-PROJECT.vercel.app/` (it redirects to `/web/copilot/`). The status chip shows **AI CONNECTED** when an answer came from Claude.
+## Use a live AI backend (Vercel)
+The copilot works with **no AI at all** (local retrieval, exact SOP text). To get conversational answers, give the server **one** AI key. Free tiers work.
+
+| Provider | Cost | Key variable | Model variable (optional) |
+|---|---|---|---|
+| **Google Gemini** (recommended free option) | Free tier with daily limits | `GEMINI_API_KEY` | `GEMINI_MODEL` (default `gemini-flash-latest`) |
+| **Groq** | Free tier with daily limits | `GROQ_API_KEY` | `GROQ_MODEL` (default `llama-3.3-70b-versatile`) |
+| Anthropic Claude | Paid | `ANTHROPIC_API_KEY` | `ANTHROPIC_MODEL` (default `claude-opus-5-5`), `ANTHROPIC_EFFORT` (default `low`) |
+
+If several keys are set, Gemini is used first, then Groq, then Claude; `LLM_PROVIDER=gemini|groq|claude` forces one. Free-tier providers may use prompts to improve their models: fine for these illustrative SOPs, not for confidential plant documents.
+
+1. Get a key: Gemini at [aistudio.google.com](https://aistudio.google.com) → **Get API key**; Groq at [console.groq.com](https://console.groq.com) → **API Keys**.
+2. In Vercel: **Add New → Project → Import** `Harshita-code31/plant-twin-prototype`. Framework Preset **Other**, Root Directory = repository root (not `web/copilot`, because `api/copilot.js` lives at the root). Leave build and output settings empty. `.vercelignore` keeps the Unity project out of the deployment.
+3. **Settings → Environment Variables**: add the key (Production and Preview). `COPILOT_RATE_LIMIT_PER_MIN` (default 20 per visitor per instance) is optional. **Never** put a key in frontend files or GitHub.
+4. Deploy, then open `https://YOUR-PROJECT.vercel.app/` (it redirects to `/web/copilot/`). The status chip shows **AI CONNECTED** when an answer came from the AI.
 5. For local full-stack testing use `vercel dev` after `npm install`; the static Python server runs the local demo only.
 
 ### How answers stay grounded (`api/copilot.js`)
-- **Retrieval decides the SOP**, using the same engine as the page (`retrieval.js`). No matching SOP → the fixed refusal, and Claude is not called.
-- **Missing values are never generated**: questions about setpoints or the LEL alarm limit get the fixed "not specified, ask the control room" answer, without calling Claude.
-- **Claude sees only that SOP's sections**, each passed as a document with the Messages API **citations** feature on. The answer is used only if it cites at least one section; the returned sources are the sections Claude actually cited, and the answer text carries inline markers such as `[SOP-GC-004 §1]`.
-- **Anything else falls back to quoting the SOP**: an uncited answer, a model refusal, a timeout or an API error all return the extractive answer (`mode: "retrieval-fallback"`), and errors are logged server-side only.
-- Refusal fallbacks are enabled server-side (`fallbacks: "default"`), so a declined request is retried on a fallback model within the same call.
-- `node --test api/copilot.test.js` checks all of the above with a fake client (no key, no network); it runs in CI.
+- **Retrieval decides the SOP**, using the same engine as the page (`retrieval.js`). No matching SOP → the fixed refusal, and no AI is called.
+- **Missing values are never generated**: questions about setpoints or the LEL alarm limit get the fixed "not specified, ask the control room" answer, without calling the AI.
+- **The AI sees only that SOP's sections** and must say which ones it used:
+  - Gemini / Groq reply in JSON with the labels of the sections used (`[S1]`, ...). Every label must be one the server sent, at least one is required, and **every number in the answer must appear in those sections**, so a model cannot slip in a setpoint.
+  - Claude uses the Messages API **citations** feature; the answer must cite at least one section.
+  The returned sources are the sections actually used, and the answer carries inline markers such as `[SOP-GC-004 §1]`.
+- **Anything else falls back to quoting the SOP**: a failed check, a refusal, a timeout, a rate limit or an API error all return the extractive answer (`mode: "retrieval-fallback"`), and errors are logged server-side only.
+- `node --test api/copilot.test.js` checks all of the above with fake providers (no key, no network); it runs in CI.
 
 ## Add an SOP
 Create `sops/my-sop.json` with `id`, `revision`, `label`, `title`, `scenario`, `keywords` and `sections` (each section: `number`, `heading`, `en`, `hi`). Add filename to `sops/index.json`. Also add a `require("../web/copilot/sops/my-sop.json")` entry to `api/copilot.js`, and an intent for it in `retrieval.js` (`ids` and `getIntent`), for backend retrieval. **Have a qualified SME review all content and thresholds before any operational usage.**
