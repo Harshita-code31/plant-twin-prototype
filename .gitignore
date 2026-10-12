@@ -92,3 +92,7 @@ __pycache__/
 # Supabase CLI local state (linked project ref, cached versions, local branches).
 supabase/.temp/
 supabase/.branches/
+
+# Node dependencies (copilot backend)
+node_modules/
+.vercel/

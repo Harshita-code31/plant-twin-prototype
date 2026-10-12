@@ -2,17 +2,19 @@ name: Verify ANUBHAV SOP copilot
 
 on:
   push:
-    branches: [copilot]
+    branches: [copilot, copilot-claude-integration]
     paths:
       - "web/copilot/**"
-      - "api/copilot.js"
+      - "api/**"
+      - "package.json"
       - "vercel.json"
       - ".github/workflows/copilot-checks.yml"
   pull_request:
-    branches: [main]
+    branches: [main, copilot]
     paths:
       - "web/copilot/**"
-      - "api/copilot.js"
+      - "api/**"
+      - "package.json"
       - "vercel.json"
       - ".github/workflows/copilot-checks.yml"
 
@@ -30,6 +32,7 @@ jobs:
             web/copilot
             api
             vercel.json
+            package.json
           lfs: false
       - name: Verify JavaScript syntax and SOP JSON
         run: |
@@ -85,6 +88,8 @@ jobs:
             console.log("PASS refusal of unsupported question");
           })().catch(error => { console.error(error); process.exitCode = 1; });
           JS
+      - name: Check Claude grounding rules with a fake client
+        run: node --test api/copilot.test.js
       - name: Verify local static HTTP serving
         run: |
           python3 -m http.server 8000 > /tmp/copilot-server.log 2>&1 &

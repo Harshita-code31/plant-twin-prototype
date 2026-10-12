@@ -1,0 +1,12 @@
+{
+  "name": "plant-twin-prototype",
+  "private": true,
+  "description": "Anubhav prototype: SOP copilot backend (api/) and static web apps (web/).",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test:copilot": "node --test api/copilot.test.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.129.0"
+  }
+}
