@@ -3,32 +3,37 @@
 **Live:** https://plant-twin-prototype.vercel.app/web/ (deployed from `main` on Vercel; `/` redirects here).
 
 A phone-friendly browser prototype for PS2 (*Anubhav: compressing years of experience through
-technology and behaviour*). It covers three of the four parts of the platform:
+technology and behaviour*). The first page is the digital twin; the main goal is a place where veterans record what
+they know, and new operators learn the SOP steps before they are tested on them.
 
 | Part | Where |
 |---|---|
-| 3D plant digital twin | The K-101 gas compressor skid in the browser (three.js), with live simulated readings, alarms, a gas cloud and flare. `js/twin.js`, `js/scenarios.js` |
-| Experience Vault | Veteran decisions (what they noticed, what they chose, why) shown on the home page, as hints during a drill, and in the debrief. `veteran` in `js/scenarios.js` |
-| Mentor, debrief and competency map | Debrief after every drill with a mentor discussion, notes and sign-off; competency map with time to competency. `js/app.js`, `js/competency.js` |
-| SOP copilot | `web/copilot/` (see its README). The "Ask SOP" buttons open it with a pre-filled question in the trainee's language; `copilotUrl` in `js/config.js` points at it. |
+| 3D plant digital twin | The K-101 gas compressor skid from the CAD drawing (three.js). Tap equipment to see what it is and which SOP steps use it. `js/twin.js` |
+| Scenarios: learn, practise, debrief | **Learn** walks through each SOP step on the twin, quoting the SOP text and why the step matters. **Practise** is the drill: a walkdown, then the emergency without warning. **Debrief** goes through each step with the SOP reference and a mentor sign-off. `js/app.js`, `js/scenarios.js`, `js/drill.js` |
+| Experience Vault | An open form for people who have handled a real leak, trip or other event: what they noticed, what they did and why, under their own name. Entries show in the lessons and debrief for that event, marked "Not yet reviewed". `js/vault.js`, `api/vault.js` |
+| SOP copilot | `web/copilot/` (see its README). Lessons and drills quote the same SOP files the copilot answers from (`copilot/sops/`). |
+| Progress | Skills, time to competency and spaced practice (next drill due 1, 3, 7, 14, then 30 days after a pass; the next day after a fail). `js/competency.js` |
 
-Everything works in English and Hindi.
+Everything works in English and Hindi. Nothing in the app is invented: there are no sample people, sample entries or
+example cohort data. Until a veteran adds an entry, the Vault shows an invitation instead.
 
 ## Drills
 
 Each drill starts with a normal **walkdown**, where the trainee can spot and report early warning signs. The emergency
-then starts without warning.
+then starts without warning. The trainee is the authorised panel operator for K-101.
 
-- **Gas leak at compressor discharge** (`SOP-GL-01`): raise the alarm, ESD, notice SDV-102 stuck part open and close it,
-  blow down to flare, check the wind, evacuate upwind. Doing nothing, or skipping isolation, ends in a flash fire.
-- **Compressor trip on high vibration** (`SOP-CT-02`): acknowledge, read the first-out, inform the control room, trace
-  the cause to a choked lube oil filter, change over, reset, restart. Bypassing the trip seizes the bearing.
+- **Gas leak at compressor discharge** (`SOP-GC-004`): raise the alarm, ESD, close SDV-102, blow down to flare, check
+  the wind, evacuate upwind. Doing nothing, or skipping isolation, ends in a flash fire.
+- **Compressor trip on high vibration** (`SOP-CP-002`): acknowledge, read the first-out, inform the control room, check
+  the lube oil filter, change over, reset, restart. Bypassing the trip seizes the bearing.
 
-The procedures are **illustrative**, written for the prototype. Replace them with the plant's approved SOPs (the same
-ones the copilot answers from) before any real training.
+Each step names the SOP section it comes from. The SOPs are **illustrative samples** written for the prototype. Replace
+the files in `copilot/sops/` with the plant's approved SOPs before any real training; lessons, drills and the copilot
+all read from them.
 
-Scoring: early warning signs 15, SOP steps 60, response time against the veteran 25, minus unsafe actions and hints.
-A forced failure caps the score at 40. Pass mark 80, with no critical step missed (same pass mark as the AbhyasAR app).
+Scoring: early warning signs 20 (minus 4 per false report), SOP steps 80 (minus 5 per step out of order), minus each unsafe
+action's penalty and 3 per hint. A forced failure caps the score at 40. Pass mark 80. A skill is competent after two
+passes in a row.
 
 ## Running it
 
@@ -45,10 +50,13 @@ ES modules need a server; opening `index.html` straight from disk will not work.
 
 ## Data
 
-Drill attempts, mentor notes and sign-offs are saved in the browser's local storage on that device. The competency map
-mixes your own attempts with rows marked **example**, which are generated sample data so the map can be read on day one.
-Moving attempts to Supabase (the `supabase/` migrations from AbhyasAR already have workers and training attempts) is the
-next step for a multi-device pilot.
+Drill attempts, mentor notes and sign-offs are saved in the browser's local storage on that device.
+
+Experience Vault entries are shared through `api/vault.js`, which stores them in Redis. On Vercel, add **Upstash Redis**
+from the Marketplace (Storage tab) and connect it to the project; it sets `KV_REST_API_URL` and `KV_REST_API_TOKEN`
+(or set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` yourself). Without storage, entries are kept on the
+device that wrote them and the app says so. New entries are saved with `reviewed: false`; a reviewer step is the next
+thing to build before entries are trusted for training. The API accepts at most 10 entries per hour from one address.
 
 ## The 3D model
 

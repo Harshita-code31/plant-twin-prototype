@@ -2,9 +2,8 @@ import { EQUIPMENT, OBSERVE_ACTIONS, ACTIONS } from "./scenarios.js";
 import { CONFIG } from "./config.js";
 
 // Runs one drill attempt: phases, the process model, action handling and scoring.
-// Scoring follows the AbhyasAR rule of thumb (practice must be done in the right way, not just
-// done): early warning signs 15, SOP steps 60, response time against the veteran 25, minus
-// unsafe actions and hints. A forced failure caps the score at 40, as in the Unity app.
+// Scoring: early warning signs spotted 20, SOP steps done in order 80, minus unsafe actions and
+// hints. A forced failure caps the score at 40, as in the AbhyasAR Unity app.
 
 const MAX_RESPONSE_SECONDS = 240;
 
@@ -122,11 +121,12 @@ export class Drill {
     return { msg, tone: eff.tone || (eff.blocked ? "warn" : "") };
   }
 
+  /** Counts a hint and returns what to show: the next SOP step, or the walkdown advice. */
   hint() {
     this.hints += 1;
-    if (this.phase === "walkdown" || this.phase === "briefing") return this.scn.walkdownHint;
+    if (this.phase === "walkdown" || this.phase === "briefing") return { advice: this.scn.walkdownHint };
     const next = this.scn.steps.find((st) => !this.done[st.id]);
-    return next ? next.hint : this.scn.walkdownHint;
+    return next ? { step: next } : { advice: this.scn.walkdownHint };
   }
 
   end(failure) {
@@ -144,9 +144,9 @@ export class Drill {
     const found = cueIds.filter((c) => this.reports.has(c));
     const falseReports = [...this.reports].filter((r) => !cueIds.includes(r));
 
-    const observe = Math.max(0, (15 * found.length) / cueIds.length - 3 * falseReports.length);
+    const observe = Math.max(0, (20 * found.length) / cueIds.length - 4 * falseReports.length);
 
-    const per = 60 / scn.steps.length;
+    const per = 80 / scn.steps.length;
     let stepsScore = 0;
     for (const st of scn.steps) {
       const d = this.done[st.id];
@@ -155,12 +155,10 @@ export class Drill {
 
     const critical = scn.steps.filter((st) => st.critical);
     const allCritical = critical.every((st) => this.done[st.id]);
-    const lastT = Math.max(1, ...critical.map((st) => this.done[st.id]?.rt ?? 0));
-    const vetT = Math.max(...critical.map((st) => st.vet));
-    const time = !this.failed && allCritical ? 25 * Math.min(1, vetT / lastT) : 0;
+    const lastT = Math.max(0, ...critical.map((st) => this.done[st.id]?.rt ?? 0));
 
-    const penalty = this.mistakes.reduce((sum, m) => sum + m.penalty, 0) + this.hints * 2;
-    let score = Math.round(Math.max(0, Math.min(100, observe + stepsScore + time - penalty)));
+    const penalty = this.mistakes.reduce((sum, m) => sum + m.penalty, 0) + this.hints * 3;
+    let score = Math.round(Math.max(0, Math.min(100, observe + stepsScore - penalty)));
     if (this.failed) score = Math.min(score, 40);
     const passed = !this.failed && allCritical && score >= CONFIG.passMark;
 
@@ -187,7 +185,6 @@ export class Drill {
       parts: {
         observe: Math.round(observe),
         steps: Math.round(stepsScore),
-        time: Math.round(time),
         penalty: Math.round(penalty),
       },
       skills,

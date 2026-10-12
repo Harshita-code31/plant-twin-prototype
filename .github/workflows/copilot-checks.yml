@@ -2,7 +2,7 @@ name: Verify ANUBHAV SOP copilot
 
 on:
   push:
-    branches: [copilot, copilot-claude-integration]
+    branches: [main, copilot, copilot-claude-integration]
     paths:
       - "web/copilot/**"
       - "api/**"
@@ -89,7 +89,7 @@ jobs:
           })().catch(error => { console.error(error); process.exitCode = 1; });
           JS
       - name: Check Claude grounding rules with a fake client
-        run: node --test api/copilot.test.js
+        run: node --test api/copilot.test.js api/vault.test.js
       - name: Verify local static HTTP serving
         run: |
           python3 -m http.server 8000 > /tmp/copilot-server.log 2>&1 &

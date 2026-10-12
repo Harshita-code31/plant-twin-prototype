@@ -22,14 +22,6 @@ export function save(key, value) {
 
 const memory = { attempts: null, signoffs: null };
 
-export function getProfile() {
-  return load("profile", { name: "", mentorId: "m1" });
-}
-
-export function setProfile(profile) {
-  save("profile", profile);
-}
-
 export function getAttempts() {
   if (!memory.attempts) memory.attempts = load("attempts", []);
   return memory.attempts;

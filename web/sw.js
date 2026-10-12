@@ -2,7 +2,7 @@
 // Static files are served from the cache and refreshed in the background, so a new deployment
 // shows up on the next launch. The copilot API is never cached: it needs the network, and the
 // copilot page falls back to quoting the SOP when offline.
-const CACHE = "anubhav-v1";
+const CACHE = "anubhav-v2";
 const SHELL = [
   "./",
   "index.html",
@@ -16,6 +16,8 @@ const SHELL = [
   "js/scenarios.js",
   "js/store.js",
   "js/twin.js",
+  "js/sop.js",
+  "js/vault.js",
   "vendor/three/three.module.min.js",
   "vendor/three/addons/OrbitControls.js",
   "vendor/three/addons/loaders/GLTFLoader.js",

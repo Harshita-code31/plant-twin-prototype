@@ -74,7 +74,7 @@ function textTexture(lines, { bg = "#1f6b3a", fg = "#ffffff", w = 256, h = 128, 
     ctx.fillStyle = f;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.font = `600 ${size}px "Rajdhani", "Arial Narrow", sans-serif`;
+    ctx.font = `600 ${size}px "Big Shoulders Stencil Display", "Arial Narrow", sans-serif`;
     const step = h / (ls.length + 1);
     ls.forEach((l, i) => ctx.fillText(l, w / 2, step * (i + 1)));
   };
@@ -237,6 +237,12 @@ export class Twin {
     this.controls.maxDistance = 34;
     this.controls.maxPolarAngle = 1.45;
     this.controls.screenSpacePanning = true;
+    this.controls.autoRotateSpeed = 0.5;
+    // A manual drag cancels any camera move the app started.
+    this.controls.addEventListener("start", () => {
+      this.focusGoal = null;
+    });
+    this.focusGoal = null;
 
     this.buildSite();
     this.buildEffects();
@@ -248,6 +254,40 @@ export class Twin {
     this.resizeObserver = new ResizeObserver(() => this.resize());
     this.resizeObserver.observe(host);
     this.resize();
+  }
+
+  /** Moves the view into another container (the home page or the drill screen). */
+  attach(host, labelLayer) {
+    if (host === this.host) return;
+    this.host = host;
+    host.prepend(this.renderer.domElement);
+    if (labelLayer !== this.labelLayer) {
+      this.labelLayer = labelLayer;
+      for (const t of this.targets.values()) labelLayer.appendChild(t.label);
+    }
+    this.resizeObserver.disconnect();
+    this.resizeObserver.observe(host);
+    this.resize();
+    this.resetView();
+  }
+
+  setAutoRotate(on) {
+    this.controls.autoRotate = !!on;
+  }
+
+  /** Glides the camera to look at one piece of equipment (used by lessons). */
+  focus(id) {
+    const t = this.targets.get(id);
+    if (!t) return;
+    // On a phone the lesson card covers the lower half of the screen, so shift the picture up
+    // (the orbit centre stays on the equipment) and stand a little further back.
+    const portrait = this.host.clientWidth < this.host.clientHeight;
+    this.setViewShift(portrait ? 0.24 : 0);
+    const target = t.anchor.clone();
+    const dir = new THREE.Vector3().subVectors(this.camera.position, this.controls.target).normalize();
+    if (dir.y < 0.45) dir.y = 0.45;
+    dir.normalize();
+    this.focusGoal = { target, camera: target.clone().addScaledVector(dir, portrait ? 11 : 9) };
   }
 
   /** Resolves once the skid (CAD model or fallback) is in the scene. */
@@ -278,7 +318,7 @@ export class Twin {
 
   buildSite() {
     const scene = this.scene;
-    scene.add(new THREE.HemisphereLight(0xdfe7ec, 0x5d6468, 1.1));
+    scene.add(new THREE.HemisphereLight(0xf2e8d0, 0x6b6150, 1.15));
     const sun = new THREE.DirectionalLight(0xffffff, 1.6);
     sun.position.set(9, 16, 7);
     sun.castShadow = true;
@@ -592,7 +632,14 @@ export class Twin {
     this.groundMat.color.set(ground);
   }
 
+  /** Moves the rendered picture up by a fraction of its height (0 = centred). */
+  setViewShift(f) {
+    this.viewShift = f;
+    this.resize();
+  }
+
   resetView() {
+    if (this.viewShift) this.setViewShift(0);
     const portrait = this.host.clientWidth < this.host.clientHeight;
     if (portrait) {
       this.camera.position.set(2.5, 10.5, 15);
@@ -611,6 +658,8 @@ export class Twin {
     this.camera.aspect = w / h;
     // Keep the skid's width in view on tall phone screens.
     this.camera.fov = w < h ? 58 : 45;
+    if (this.viewShift) this.camera.setViewOffset(w, h, 0, h * this.viewShift, w, h);
+    else this.camera.clearViewOffset();
     this.camera.updateProjectionMatrix();
   }
 
@@ -682,6 +731,9 @@ export class Twin {
     this.heatLight.intensity = 0;
     this.fireAge = 0;
     this.select(null);
+    this.focusGoal = null;
+    this.setAutoRotate(false);
+    for (const id of this.targets.keys()) this.setLabel(id, "", "");
     this.compressorMats.forEach((m) => m.emissive.setHex(0));
     if (this.compressorHit?.hitMat) this.compressorHit.hitMat.opacity = 0;
     this.resetView();
@@ -753,6 +805,12 @@ export class Twin {
       }
     }
 
+    if (this.focusGoal) {
+      const k = 1 - Math.exp(-dt * 3);
+      this.controls.target.lerp(this.focusGoal.target, k);
+      this.camera.position.lerp(this.focusGoal.camera, k);
+      if (this.camera.position.distanceTo(this.focusGoal.camera) < 0.05) this.focusGoal = null;
+    }
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
     this.placeLabels();
