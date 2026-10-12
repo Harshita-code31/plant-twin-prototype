@@ -1,0 +1,525 @@
+{
+ "model": "bulbul:v3",
+ "speaker": "shubh",
+ "speech_sample_rate": 24000,
+ "languages": {
+  "en": {
+   "language_code": "en-IN",
+   "folder": ".",
+   "clip_suffix": ""
+  },
+  "hi": {
+   "language_code": "hi-IN",
+   "folder": "hi",
+   "clip_suffix": "__hi"
+  }
+ },
+ "santali": "Sarvam TTS has no Santali (sat) voice; NarrationPlayer plays the Hindi clips for Santali (see santaliVoiceFallback).",
+ "source": "Spoken text is generated from Assets/Resources/Localization/<lang>.json (the on-screen strings) via speech_text() in the dev-time generator.",
+ "lines": [
+  {
+   "id": "prompt_scan_floor",
+   "key": "prompt_scan_floor",
+   "text": {
+    "en": "Move your phone slowly around so it can see the floor.",
+    "hi": "फर्श को स्कैन करने के लिए अपना फ़ोन धीरे-धीरे घुमाएं।"
+   },
+   "files": {
+    "en": "prompt_scan_floor.wav",
+    "hi": "hi/prompt_scan_floor__hi.wav"
+   }
+  },
+  {
+   "id": "prompt_place_wall_content",
+   "key": "prompt_place_wall_content",
+   "text": {
+    "en": "Tap the floor to set up the fire safety station.",
+    "hi": "फ़ायर सेफ़्टी स्टेशन लगाने के लिए फ़र्श पर टैप करें।"
+   },
+   "files": {
+    "en": "prompt_place_wall_content.wav",
+    "hi": "hi/prompt_place_wall_content__hi.wav"
+   }
+  },
+  {
+   "id": "prompt_place_fire",
+   "key": "prompt_place_fire",
+   "text": {
+    "en": "Tap the floor to start the fire.",
+    "hi": "आग शुरू करने के लिए फर्श पर टैप करें।"
+   },
+   "files": {
+    "en": "prompt_place_fire.wav",
+    "hi": "hi/prompt_place_fire__hi.wav"
+   }
+  },
+  {
+   "id": "prompt_scanning_floor",
+   "key": "prompt_scanning_floor",
+   "text": {
+    "en": "Looking for a good spot for the fire.",
+    "hi": "आग के लिए सही जगह ढूँढी जा रही है।"
+   },
+   "files": {
+    "en": "prompt_scanning_floor.wav",
+    "hi": "hi/prompt_scanning_floor__hi.wav"
+   }
+  },
+  {
+   "id": "prompt_mount_extinguishers",
+   "key": "prompt_mount_extinguishers",
+   "text": {
+    "en": "Setting up the extinguishers.",
+    "hi": "अग्निशामक लगाए जा रहे हैं।"
+   },
+   "files": {
+    "en": "prompt_mount_extinguishers.wav",
+    "hi": "hi/prompt_mount_extinguishers__hi.wav"
+   }
+  },
+  {
+   "id": "scenario_trashcan",
+   "key": "scenario_trashcan",
+   "text": {
+    "en": "A fire just started in a trash can! What should you do?",
+    "hi": "कूड़ेदान में अभी आग लग गई! आपको क्या करना चाहिए?"
+   },
+   "files": {
+    "en": "scenario_trashcan.wav",
+    "hi": "hi/scenario_trashcan__hi.wav"
+   }
+  },
+  {
+   "id": "scenario_outlet",
+   "key": "scenario_outlet",
+   "text": {
+    "en": "A fire just started at an overloaded power outlet! What should you do?",
+    "hi": "एक ओवरलोडेड पावर आउटलेट में अभी आग लग गई! आपको क्या करना चाहिए?"
+   },
+   "files": {
+    "en": "scenario_outlet.wav",
+    "hi": "hi/scenario_outlet__hi.wav"
+   }
+  },
+  {
+   "id": "scenario_cabinet",
+   "key": "scenario_cabinet",
+   "text": {
+    "en": "A fire just started in the electrical cabinet! What should you do?",
+    "hi": "इलेक्ट्रिकल कैबिनेट में अभी आग लग गई! आपको क्या करना चाहिए?"
+   },
+   "files": {
+    "en": "scenario_cabinet.wav",
+    "hi": "hi/scenario_cabinet__hi.wav"
+   }
+  },
+  {
+   "id": "scenario_furnace",
+   "key": "scenario_furnace",
+   "text": {
+    "en": "A fire just started at the gas furnace! What should you do?",
+    "hi": "गैस भट्टी में अभी आग लग गई! आपको क्या करना चाहिए?"
+   },
+   "files": {
+    "en": "scenario_furnace.wav",
+    "hi": "hi/scenario_furnace__hi.wav"
+   }
+  },
+  {
+   "id": "prompt_activate_alarm",
+   "key": "prompt_activate_alarm",
+   "text": {
+    "en": "Sound the alarm first, tap the call point on the wall.",
+    "hi": "पहले अलार्म बजाएँ, दीवार पर लगे कॉल पॉइंट पर टैप करें।"
+   },
+   "files": {
+    "en": "prompt_activate_alarm.wav",
+    "hi": "hi/prompt_activate_alarm__hi.wav"
+   }
+  },
+  {
+   "id": "prompt_shut_gas",
+   "key": "prompt_shut_gas",
+   "text": {
+    "en": "Shut off the gas first, tap the red valve handle at the bottom of the furnace.",
+    "hi": "पहले गैस बंद करें, भट्टी के नीचे लगे लाल वाल्व हैंडल पर टैप करें।"
+   },
+   "files": {
+    "en": "prompt_shut_gas.wav",
+    "hi": "hi/prompt_shut_gas__hi.wav"
+   }
+  },
+  {
+   "id": "warning_alarm_not_activated",
+   "key": "alarm_not_activated_warning_line",
+   "text": {
+    "en": "Sound the alarm before you touch an extinguisher!",
+    "hi": "अग्निशामक छूने से पहले अलार्म बजाएँ!"
+   },
+   "files": {
+    "en": "warning_alarm_not_activated.wav",
+    "hi": "hi/warning_alarm_not_activated__hi.wav"
+   }
+  },
+  {
+   "id": "guide_class_a",
+   "key": "guide_class_a",
+   "text": {
+    "en": "Ordinary combustibles, wood, paper, cloth. Grab the grey extinguisher.",
+    "hi": "क्लास ए आग (सामान्य ज्वलनशील पदार्थ), ग्रे अग्निशामक का उपयोग करें।"
+   },
+   "files": {
+    "en": "guide_class_a.wav",
+    "hi": "hi/guide_class_a__hi.wav"
+   }
+  },
+  {
+   "id": "guide_class_bc",
+   "key": "guide_class_bc",
+   "text": {
+    "en": "A liquid or electrical fire, grab the yellow extinguisher. Skip the grey one here, it won't help and it isn't safe.",
+    "hi": "क्लास बी या सी आग (तरल या विद्युत), पीले अग्निशामक का उपयोग करें। कभी भी ग्रे वाला नहीं, यह यहाँ सुरक्षित नहीं है।"
+   },
+   "files": {
+    "en": "guide_class_bc.wav",
+    "hi": "hi/guide_class_bc__hi.wav"
+   }
+  },
+  {
+   "id": "guide_class_abc",
+   "key": "guide_class_abc",
+   "text": {
+    "en": "This one could spread across several materials, the red extinguisher is your safest bet.",
+    "hi": "बहु-श्रेणी आग, लाल (ए बी सी-रेटेड) अग्निशामक सबसे सुरक्षित है।"
+   },
+   "files": {
+    "en": "guide_class_abc.wav",
+    "hi": "hi/guide_class_abc__hi.wav"
+   }
+  },
+  {
+   "id": "guide_default",
+   "key": "guide_default",
+   "text": {
+    "en": "Pick the extinguisher that matches this fire.",
+    "hi": "इस आग से मेल खाने वाला अग्निशामक चुनें।"
+   },
+   "files": {
+    "en": "guide_default.wav",
+    "hi": "hi/guide_default__hi.wav"
+   }
+  },
+  {
+   "id": "warning_wrong_extinguisher",
+   "key": "wrong_extinguisher_warning_line",
+   "text": {
+    "en": "That's not the right extinguisher for this fire, try another one.",
+    "hi": "गलत अग्निशामक, यह इस आग को नहीं बुझाएगा!"
+   },
+   "files": {
+    "en": "warning_wrong_extinguisher.wav",
+    "hi": "hi/warning_wrong_extinguisher__hi.wav"
+   }
+  },
+  {
+   "id": "pass_pull_pin",
+   "key": "pass_pull_pin",
+   "text": {
+    "en": "Pull the pin.",
+    "hi": "पिन खींचें।"
+   },
+   "files": {
+    "en": "pass_pull_pin.wav",
+    "hi": "hi/pass_pull_pin__hi.wav"
+   }
+  },
+  {
+   "id": "pass_aim_base",
+   "key": "pass_aim_base",
+   "text": {
+    "en": "Aim at the base of the fire, not the flames.",
+    "hi": "आग के आधार पर निशाना लगाएं।"
+   },
+   "files": {
+    "en": "pass_aim_base.wav",
+    "hi": "hi/pass_aim_base__hi.wav"
+   }
+  },
+  {
+   "id": "pass_squeeze",
+   "key": "pass_squeeze",
+   "text": {
+    "en": "Squeeze the handle to start spraying.",
+    "hi": "स्प्रे करने के लिए हैंडल दबाकर रखें।"
+   },
+   "files": {
+    "en": "pass_squeeze.wav",
+    "hi": "hi/pass_squeeze__hi.wav"
+   }
+  },
+  {
+   "id": "pass_sweep",
+   "key": "pass_sweep",
+   "text": {
+    "en": "Sweep side to side as you spray.",
+    "hi": "स्प्रे करते समय अगल-बगल घुमाएं।"
+   },
+   "files": {
+    "en": "pass_sweep.wav",
+    "hi": "hi/pass_sweep__hi.wav"
+   }
+  },
+  {
+   "id": "pass_keep_spraying",
+   "key": "pass_keep_spraying",
+   "text": {
+    "en": "Keep going until the fire's completely out.",
+    "hi": "जब तक आग पूरी तरह बुझ न जाए, स्प्रे करते रहें।"
+   },
+   "files": {
+    "en": "pass_keep_spraying.wav",
+    "hi": "hi/pass_keep_spraying__hi.wav"
+   }
+  },
+  {
+   "id": "pass_fire_out",
+   "key": "pass_fire_out",
+   "text": {
+    "en": "Fire's out, nice work!",
+    "hi": "आग बुझ गई, बहुत बढ़िया काम!"
+   },
+   "files": {
+    "en": "pass_fire_out.wav",
+    "hi": "hi/pass_fire_out__hi.wav"
+   }
+  },
+  {
+   "id": "result_great_job",
+   "key": "header_great_job",
+   "text": {
+    "en": "Great job!",
+    "hi": "बहुत बढ़िया!"
+   },
+   "files": {
+    "en": "result_great_job.wav",
+    "hi": "hi/result_great_job__hi.wav"
+   }
+  },
+  {
+   "id": "result_not_quite",
+   "key": "header_not_quite",
+   "text": {
+    "en": "Not quite, try again.",
+    "hi": "बिल्कुल सही नहीं, फिर से प्रयास करें।"
+   },
+   "files": {
+    "en": "result_not_quite.wav",
+    "hi": "hi/result_not_quite__hi.wav"
+   }
+  },
+  {
+   "id": "result_furnace_exploded",
+   "key": "header_furnace_exploded",
+   "text": {
+    "en": "The furnace exploded!",
+    "hi": "भट्टी में विस्फोट हो गया!"
+   },
+   "files": {
+    "en": "result_furnace_exploded.wav",
+    "hi": "hi/result_furnace_exploded__hi.wav"
+   }
+  },
+  {
+   "id": "conveyor_prompt_place",
+   "key": "conveyor_prompt_place",
+   "text": {
+    "en": "Tap the floor to place the conveyor.",
+    "hi": "कन्वेयर रखने के लिए फ़र्श पर टैप करें।"
+   },
+   "files": {
+    "en": "conveyor_prompt_place.wav",
+    "hi": "hi/conveyor_prompt_place__hi.wav"
+   }
+  },
+  {
+   "id": "machine_task_run_auto",
+   "key": "machine_task_run_auto",
+   "text": {
+    "en": "Tap the green start button to run the belt in auto mode.",
+    "hi": "ऑटो मोड में बेल्ट चलाने के लिए हरा स्टार्ट बटन दबाएँ।"
+   },
+   "files": {
+    "en": "machine_task_run_auto.wav",
+    "hi": "hi/machine_task_run_auto__hi.wav"
+   }
+  },
+  {
+   "id": "machine_task_back_to_auto",
+   "key": "machine_task_back_to_auto",
+   "text": {
+    "en": "Press the manual auto button to switch back to auto.",
+    "hi": "वापस ऑटो पर जाने के लिए मैनुअल ऑटो बटन दबाएँ।"
+   },
+   "files": {
+    "en": "machine_task_back_to_auto.wav",
+    "hi": "hi/machine_task_back_to_auto__hi.wav"
+   }
+  },
+  {
+   "id": "machine_task_stop",
+   "key": "machine_task_stop",
+   "text": {
+    "en": "Tap the red stop button to stop the belt.",
+    "hi": "बेल्ट रोकने के लिए लाल स्टॉप बटन दबाएँ।"
+   },
+   "files": {
+    "en": "machine_task_stop.wav",
+    "hi": "hi/machine_task_stop__hi.wav"
+   }
+  },
+  {
+   "id": "machine_task_estop",
+   "key": "machine_task_estop",
+   "text": {
+    "en": "Tap the emergency stop switch. It's the red and yellow switch on the side of the control box.",
+    "hi": "कंट्रोल बॉक्स के साइड पर लगे लाल-पीले ई-स्टॉप स्विच पर टैप करें।"
+   },
+   "files": {
+    "en": "machine_task_estop.wav",
+    "hi": "hi/machine_task_estop__hi.wav"
+   }
+  },
+  {
+   "id": "machine_task_reset",
+   "key": "machine_task_reset",
+   "text": {
+    "en": "Tap the E-stop again to reset it.",
+    "hi": "रीसेट करने के लिए ई-स्टॉप पर फिर से टैप करें।"
+   },
+   "files": {
+    "en": "machine_task_reset.wav",
+    "hi": "hi/machine_task_reset__hi.wav"
+   }
+  },
+  {
+   "id": "machine_task_manual",
+   "key": "machine_task_manual",
+   "text": {
+    "en": "Press the manual auto button to switch to manual.",
+    "hi": "मैनुअल पर जाने के लिए मैनुअल ऑटो बटन दबाएँ।"
+   },
+   "files": {
+    "en": "machine_task_manual.wav",
+    "hi": "hi/machine_task_manual__hi.wav"
+   }
+  },
+  {
+   "id": "machine_task_jog",
+   "key": "machine_task_jog",
+   "text": {
+    "en": "Hold the green start button to jog the belt.",
+    "hi": "बेल्ट जॉग करने के लिए हरा स्टार्ट बटन दबाए रखें।"
+   },
+   "files": {
+    "en": "machine_task_jog.wav",
+    "hi": "hi/machine_task_jog__hi.wav"
+   }
+  },
+  {
+   "id": "machine_task_speed",
+   "key": "machine_task_speed",
+   "text": {
+    "en": "Tap the speed dial to change the belt speed.",
+    "hi": "बेल्ट की गति बदलने के लिए स्पीड डायल पर टैप करें।"
+   },
+   "files": {
+    "en": "machine_task_speed.wav",
+    "hi": "hi/machine_task_speed__hi.wav"
+   }
+  },
+  {
+   "id": "conveyor_estopped",
+   "key": "conveyor_estopped",
+   "text": {
+    "en": "E-stopped, tap the E-stop again to reset before continuing.",
+    "hi": "ई-स्टॉप लगा है, आगे बढ़ने से पहले रीसेट करने के लिए ई-स्टॉप पर फिर से टैप करें।"
+   },
+   "files": {
+    "en": "conveyor_estopped.wav",
+    "hi": "hi/conveyor_estopped__hi.wav"
+   }
+  },
+  {
+   "id": "conveyor_tap_start",
+   "key": "conveyor_tap_start",
+   "text": {
+    "en": "Tap start to run the belt.",
+    "hi": "बेल्ट चलाने के लिए स्टार्ट दबाएँ।"
+   },
+   "files": {
+    "en": "conveyor_tap_start.wav",
+    "hi": "hi/conveyor_tap_start__hi.wav"
+   }
+  },
+  {
+   "id": "conveyor_tap_stop",
+   "key": "conveyor_tap_stop",
+   "text": {
+    "en": "Tap stop to stop the belt safely.",
+    "hi": "बेल्ट को सुरक्षित रोकने के लिए स्टॉप दबाएँ।"
+   },
+   "files": {
+    "en": "conveyor_tap_stop.wav",
+    "hi": "hi/conveyor_tap_stop__hi.wav"
+   }
+  },
+  {
+   "id": "conveyor_hold_jog",
+   "key": "conveyor_hold_jog",
+   "text": {
+    "en": "Hold the green button to jog the belt.",
+    "hi": "बेल्ट जॉग करने के लिए हरा बटन दबाए रखें।"
+   },
+   "files": {
+    "en": "conveyor_hold_jog.wav",
+    "hi": "hi/conveyor_hold_jog__hi.wav"
+   }
+  },
+  {
+   "id": "conveyor_release_jog",
+   "key": "conveyor_release_jog",
+   "text": {
+    "en": "Release to stop jogging the belt.",
+    "hi": "जॉग रोकने के लिए बटन छोड़ दें।"
+   },
+   "files": {
+    "en": "conveyor_release_jog.wav",
+    "hi": "hi/conveyor_release_jog__hi.wav"
+   }
+  },
+  {
+   "id": "machine_result_pass",
+   "key": "machine_result_pass",
+   "text": {
+    "en": "Training passed!",
+    "hi": "प्रशिक्षण पास!"
+   },
+   "files": {
+    "en": "machine_result_pass.wav",
+    "hi": "hi/machine_result_pass__hi.wav"
+   }
+  },
+  {
+   "id": "machine_result_fail",
+   "key": "machine_result_fail",
+   "text": {
+    "en": "Not passed.",
+    "hi": "पास नहीं हुए।"
+   },
+   "files": {
+    "en": "machine_result_fail.wav",
+    "hi": "hi/machine_result_fail__hi.wav"
+   }
+  }
+ ]
+}

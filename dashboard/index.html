@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AbhyasAR Admin</title>
+  <script>try { if (localStorage.getItem("abhyas-theme") === "dark") document.documentElement.dataset.theme = "dark"; } catch (_) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23FFD20A'/%3E%3Cpath d='M16 5l9 3.4v6.4c0 5.6-3.8 10-9 12.2-5.2-2.2-9-6.6-9-12.2V8.4z' fill='%2311110F'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,700..900&family=Geist+Mono:wght@400..600&family=Geist:wght@400..700&family=Noto+Sans+Devanagari:wght@400..700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+</head>
+<body data-view="login">
+  <aside class="rail">
+    <a class="wordmark" href="#/overview" aria-label="AbhyasAR admin home"><span>ABHYAS</span><b>AR</b></a>
+    <div class="rail-body">
+      <p class="rail-kicker">Field safety training<br>Admin console</p>
+      <nav class="nav" id="nav" hidden>
+        <a href="#/overview" data-nav="overview"><i>01</i>Overview</a>
+        <a href="#/workers" data-nav="workers"><i>02</i>Workers</a>
+        <a href="#/certificates" data-nav="certificates"><i>03</i>Certificates</a>
+        <a href="#/admins" data-nav="admins"><i>04</i>Admins</a>
+      </nav>
+      <div class="session" id="session-box" hidden>
+        <span class="session-label">Signed in</span>
+        <span id="admin-email"></span>
+        <div class="session-actions">
+          <button class="ghost small" id="refresh-btn" title="Reload data from Supabase">Refresh</button>
+          <button class="ghost small" id="signout-btn">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">Dark mode</button>
+
+  <main id="main">
+    <!-- Sign in -->
+    <section id="view-login" class="view login" hidden>
+      <div class="login-art" aria-hidden="true">
+        <span class="login-word">ABHY<br>AS</span>
+        <span class="login-ar">AR</span>
+        <div class="hazard-band"></div>
+      </div>
+      <form id="login-form" class="login-form">
+        <p class="kicker">Admin console · restricted</p>
+        <h1>Sign in</h1>
+        <p class="muted">Manage workers, training and certificates.</p>
+        <label>Email <input type="email" id="login-email" required autocomplete="username"></label>
+        <label>Password <input type="password" id="login-password" required autocomplete="current-password"></label>
+        <button type="submit" class="primary">Sign in →</button>
+        <p class="error" id="login-error"></p>
+      </form>
+    </section>
+
+    <!-- Public QR destination; no admin sign-in required. -->
+    <section id="view-public-certificate" class="view public-certificate" hidden>
+      <div class="certificate-check">
+        <a class="wordmark public-wordmark" href="#/overview"><span>ABHYAS</span><b>AR</b></a>
+        <p class="kicker">Certificate verification</p>
+        <div id="public-certificate-result" class="public-certificate-result" aria-live="polite">
+          <h1>Checking certificate…</h1>
+          <p class="muted">Looking up the issued training record.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Overview -->
+    <section id="view-overview" class="view" hidden>
+      <header class="view-head">
+        <div class="headline"><span class="index">01</span><h1>Overview</h1></div>
+      </header>
+      <div class="filters">
+        <label class="inline">Period
+          <select id="f-range">
+            <option value="7">Last 7 days</option>
+            <option value="30" selected>Last 30 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="this_month">This month</option>
+            <option value="this_year">This year</option>
+            <option value="365">Last 12 months</option>
+            <option value="all">All time</option>
+          </select>
+        </label>
+        <label class="inline">Training
+          <select id="f-module">
+            <option value="all">All trainings</option>
+            <option value="fire_safety">Fire Safety</option>
+            <option value="machine_training">Machine Training</option>
+          </select>
+        </label>
+      </div>
+      <div class="tiles" id="overview-tiles"></div>
+      <div class="grid-2" id="overview-charts"></div>
+    </section>
+
+    <!-- Workers list -->
+    <section id="view-workers" class="view" hidden>
+      <header class="view-head">
+        <div class="headline"><span class="index">02</span><h1>Workers</h1></div>
+        <div class="head-meta">
+          <div class="actions">
+            <button class="ghost" id="export-workers-btn">Export CSV</button>
+            <button class="primary" id="new-worker-btn">+ Add workers</button>
+          </div>
+        </div>
+      </header>
+      <div class="filters">
+        <input type="search" id="worker-search" placeholder="Search name or worker ID" aria-label="Search workers">
+        <label class="inline">Status
+          <select id="f-status">
+            <option value="all">All</option>
+            <option value="active">Active</option>
+            <option value="disabled">Disabled</option>
+          </select>
+        </label>
+        <label class="inline">Certification
+          <select id="f-cert">
+            <option value="all">All</option>
+            <option value="both">Fully certified</option>
+            <option value="fire_safety">Fire Safety certified</option>
+            <option value="machine_training">Machine Training certified</option>
+            <option value="none">Not certified yet</option>
+          </select>
+        </label>
+        <span class="count" id="workers-count"></span>
+      </div>
+      <div class="card table-wrap">
+        <table class="sortable">
+          <thead>
+            <tr>
+              <th data-sort="worker_code">Worker ID</th>
+              <th data-sort="display_name">Name</th>
+              <th data-sort="active">Status</th>
+              <th data-sort="fire_safety">Fire Safety</th>
+              <th data-sort="machine_training">Machine Training</th>
+              <th data-sort="attempts" class="num">Attempts</th>
+              <th data-sort="passRate" class="num">Pass rate</th>
+              <th data-sort="last_activity">Last activity</th>
+            </tr>
+          </thead>
+          <tbody id="workers-body"></tbody>
+        </table>
+        <p class="empty" id="workers-empty" hidden></p>
+      </div>
+    </section>
+
+    <!-- Worker detail -->
+    <section id="view-worker" class="view" hidden>
+      <a href="#/workers" class="back">← 02 Workers</a>
+      <header class="view-head worker-head">
+        <div class="headline"><h1 id="worker-name"></h1></div>
+        <div class="head-meta">
+          <div class="worker-meta" id="worker-meta"></div>
+          <div class="actions">
+            <button class="ghost" id="export-csv-btn">Export CSV</button>
+            <button class="ghost" id="rename-btn">Rename</button>
+            <button class="ghost" id="reset-pw-btn">Reset password</button>
+            <button class="ghost" id="toggle-active-btn"></button>
+            <button class="ghost danger" id="delete-btn">Delete</button>
+          </div>
+        </div>
+      </header>
+      <div class="modules" id="worker-modules"></div>
+      <div class="view-head sub">
+        <h2>Training history</h2>
+        <label class="inline">Training
+          <select id="f-worker-module">
+            <option value="all">All trainings</option>
+            <option value="fire_safety">Fire Safety</option>
+            <option value="machine_training">Machine Training</option>
+          </select>
+        </label>
+      </div>
+      <div class="card table-wrap">
+        <table>
+          <thead>
+            <tr><th>Completed</th><th>Training</th><th>Part</th><th>Result</th><th class="num">Score</th><th class="num">Time</th><th></th></tr>
+          </thead>
+          <tbody id="attempts-body"></tbody>
+        </table>
+        <p class="empty" id="attempts-empty" hidden>No synced training attempts yet.</p>
+      </div>
+    </section>
+
+    <!-- Certificates -->
+    <section id="view-certificates" class="view" hidden>
+      <header class="view-head">
+        <div class="headline"><span class="index">03</span><h1>Certificates</h1></div>
+        <div class="head-meta">
+          <div class="actions"><button class="ghost" id="export-certs-btn">Export CSV</button></div>
+        </div>
+      </header>
+      <form class="card verify offset" id="verify-form">
+        <div class="verify-head">
+          <h2>Verify a certificate</h2>
+          <p class="muted">Paste a legacy certificate code below.</p>
+        </div>
+        <div class="verify-row">
+          <textarea id="verify-input" rows="2" required placeholder="AR-CERT|v1|…" spellcheck="false"></textarea>
+          <button type="submit" class="primary">Verify</button>
+        </div>
+        <div id="verify-result" aria-live="polite"></div>
+      </form>
+      <div class="filters">
+        <label class="inline">Training
+          <select id="f-cert-module">
+            <option value="all">All trainings</option>
+            <option value="fire_safety">Fire Safety</option>
+            <option value="machine_training">Machine Training</option>
+          </select>
+        </label>
+        <span class="count" id="certs-count"></span>
+      </div>
+      <div class="card table-wrap">
+        <table>
+          <thead>
+            <tr><th>Certified</th><th>Worker</th><th>Name</th><th>Training</th><th class="num">Score</th><th>Certificate sync</th></tr>
+          </thead>
+          <tbody id="certs-body"></tbody>
+        </table>
+        <p class="empty" id="certs-empty" hidden>No certificates earned yet.</p>
+      </div>
+    </section>
+
+    <!-- Admins -->
+    <section id="view-admins" class="view" hidden>
+      <header class="view-head">
+        <div class="headline"><span class="index">04</span><h1>Admins</h1></div>
+      </header>
+      <div class="admins-layout">
+        <div class="card table-wrap">
+          <table>
+            <thead><tr><th>Email</th><th>Account created</th><th>Last sign-in</th><th></th></tr></thead>
+            <tbody id="admins-body"></tbody>
+          </table>
+        </div>
+        <form class="card add-admin offset" id="add-admin-form">
+          <h2>Grant admin access</h2>
+          <p class="muted">Enter the email of an existing Supabase user.</p>
+          <div class="row">
+            <input type="email" id="add-admin-email" required placeholder="name@example.com" aria-label="Admin email">
+            <button type="submit" class="primary">Add admin</button>
+          </div>
+          <p class="error" id="add-admin-error"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Add workers (one or several) -->
+  <dialog id="new-worker-dialog">
+    <form id="new-worker-form" method="dialog">
+      <h2>Add workers</h2>
+      <label>Full names, one per line
+        <textarea id="new-worker-names" rows="6" required maxlength="20000" placeholder="Asha Devi&#10;Ravi Kumar"></textarea>
+      </label>
+      <p class="muted small" id="new-worker-count">Each person gets a worker ID and a password.</p>
+      <p class="error" id="new-worker-error"></p>
+      <div class="dialog-actions">
+        <button type="button" class="ghost" data-close>Cancel</button>
+        <button type="submit" class="primary">Create</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- One-time credentials (one or many workers) -->
+  <dialog id="credentials-dialog" class="wide">
+    <div class="credentials printable">
+      <h2 id="cred-title">Login details</h2>
+      <p class="warning no-print">Passwords are shown once. Print or copy them now, then hand each worker their own line.</p>
+      <div class="table-wrap">
+        <table class="cred-table">
+          <thead><tr><th>Name</th><th>Worker ID</th><th>Password</th></tr></thead>
+          <tbody id="cred-body"></tbody>
+        </table>
+      </div>
+      <div class="dialog-actions no-print">
+        <button type="button" class="ghost" id="cred-copy">Copy</button>
+        <button type="button" class="ghost" id="cred-print">Print</button>
+        <button type="button" class="primary" data-close>Done</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Rename -->
+  <dialog id="rename-dialog">
+    <form id="rename-form" method="dialog">
+      <h2>Rename worker</h2>
+      <label>Full name <input id="rename-input" required maxlength="80"></label>
+      <p class="error" id="rename-error"></p>
+      <div class="dialog-actions">
+        <button type="button" class="ghost" data-close>Cancel</button>
+        <button type="submit" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Delete -->
+  <dialog id="delete-dialog" class="hazard">
+    <form id="delete-form" method="dialog">
+      <h2>Delete worker</h2>
+      <p>This permanently deletes <b id="delete-name"></b> and <b>all their synced training records</b>. It can't be undone. To keep their records, disable their login instead.</p>
+      <label>Type the worker ID <span class="mono" id="delete-code"></span> to confirm
+        <input id="delete-confirm" required autocomplete="off" spellcheck="false">
+      </label>
+      <p class="error" id="delete-error"></p>
+      <div class="dialog-actions">
+        <button type="button" class="ghost" data-close>Cancel</button>
+        <button type="submit" class="primary danger-fill" id="delete-submit" disabled>Delete worker</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" hidden></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

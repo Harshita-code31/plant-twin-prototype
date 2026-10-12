@@ -1,0 +1,537 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 840,
+      "max": [
+        1.0,
+        1.006601333618164,
+        4.650223731994629
+      ],
+      "min": [
+        -4.190051555633545,
+        -1.0066022872924805,
+        -5.213099956512451
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 10080,
+      "componentType": 5126,
+      "count": 840,
+      "max": [
+        1.0,
+        4.3491763790370896e-07,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -3.8037970284676703e-07,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 840,
+      "max": [
+        1.0,
+        3.686385952050841e-08,
+        1.0,
+        -1.0
+      ],
+      "min": [
+        -1.0,
+        -7.602123446304176e-07,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 840,
+      "max": [
+        1.0,
+        1.0
+      ],
+      "min": [
+        0.41421347856521606,
+        0.16756439208984375
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 6720,
+      "componentType": 5126,
+      "count": 840,
+      "max": [
+        1.0,
+        1.0
+      ],
+      "min": [
+        0.41421347856521606,
+        0.16756439208984375
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 13440,
+      "componentType": 5126,
+      "count": 840,
+      "max": [
+        1.0,
+        1.0
+      ],
+      "min": [
+        0.41421347856521606,
+        0.16756439208984375
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 20160,
+      "componentType": 5126,
+      "count": 840,
+      "max": [
+        1.0,
+        1.0
+      ],
+      "min": [
+        0.41421347856521606,
+        0.16756439208984375
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 2160,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 20160,
+      "componentType": 5126,
+      "count": 864,
+      "max": [
+        1.0,
+        1.006601333618164,
+        4.650223731994629
+      ],
+      "min": [
+        -4.190051555633545,
+        -1.0066022872924805,
+        -5.213099956512451
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 30528,
+      "componentType": 5126,
+      "count": 864,
+      "max": [
+        0.9964450597763062,
+        1.0,
+        0.9277764558792114
+      ],
+      "min": [
+        -1.0,
+        -1.0,
+        -0.9990922212600708
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 13440,
+      "componentType": 5126,
+      "count": 864,
+      "max": [
+        0.9999975562095642,
+        0.014973395504057407,
+        0.9999943375587463,
+        1.0
+      ],
+      "min": [
+        -0.9999317526817322,
+        -1.9420008356973995e-07,
+        -0.9998722076416016,
+        -1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 26880,
+      "componentType": 5126,
+      "count": 864,
+      "max": [
+        0.9412062168121338,
+        0.9575890898704529
+      ],
+      "min": [
+        0.05147659033536911,
+        0.012828588485717773
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 33792,
+      "componentType": 5126,
+      "count": 864,
+      "max": [
+        0.9412062168121338,
+        0.9575890898704529
+      ],
+      "min": [
+        0.05147659033536911,
+        0.012828588485717773
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 40704,
+      "componentType": 5126,
+      "count": 864,
+      "max": [
+        0.9412062168121338,
+        0.9575890898704529
+      ],
+      "min": [
+        0.05147659033536911,
+        0.012828588485717773
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 47616,
+      "componentType": 5126,
+      "count": 864,
+      "max": [
+        0.9412062168121338,
+        0.9575890898704529
+      ],
+      "min": [
+        0.05147659033536911,
+        0.012828588485717773
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 8640,
+      "componentType": 5125,
+      "count": 2196,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Enxos (https://sketchfab.com/enxos)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/pile-of-wood-169d24e188004c7cb5a9cca6d1c63092",
+      "title": "pile of wood"
+    },
+    "generator": "Sketchfab-14.87.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 17424,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 54528,
+      "byteOffset": 17424,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 40896,
+      "byteOffset": 71952,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 27264,
+      "byteOffset": 112848,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 140112,
+      "uri": "scene.bin"
+    }
+  ],
+  "extensionsUsed": [
+    "KHR_materials_specular"
+  ],
+  "images": [
+    {
+      "uri": "textures/corteccia_baseColor.jpeg"
+    },
+    {
+      "uri": "textures/corteccia_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/corteccia_normal.jpeg"
+    },
+    {
+      "uri": "textures/corteccia_specularf0.png"
+    },
+    {
+      "uri": "textures/taglio_legno_baseColor.jpeg"
+    },
+    {
+      "uri": "textures/taglio_legno_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/taglio_legno_normal.jpeg"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "extensions": {
+        "KHR_materials_specular": {
+          "specularColorFactor": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "specularFactor": 1.0,
+          "specularTexture": {
+            "index": 3
+          }
+        }
+      },
+      "name": "corteccia",
+      "normalTexture": {
+        "index": 2
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "taglio_legno",
+      "normalTexture": {
+        "index": 6,
+        "scale": 0.3
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 4
+        },
+        "metallicFactor": 0.0,
+        "metallicRoughnessTexture": {
+          "index": 5
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Object_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3,
+            "TEXCOORD_1": 4,
+            "TEXCOORD_2": 5,
+            "TEXCOORD_3": 6
+          },
+          "indices": 7,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_1",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 9,
+            "POSITION": 8,
+            "TANGENT": 10,
+            "TEXCOORD_0": 11,
+            "TEXCOORD_1": 12,
+            "TEXCOORD_2": 13,
+            "TEXCOORD_3": 14
+          },
+          "indices": 15,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "root"
+    },
+    {
+      "children": [
+        3
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "GLTF_SceneRootNode"
+    },
+    {
+      "children": [
+        4,
+        5
+      ],
+      "matrix": [
+        0.0,
+        -0.15000003576278687,
+        0.0,
+        0.0,
+        0.30000007152557373,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.15000003576278687,
+        0.0,
+        -1.8261053562164307,
+        0.15675564110279083,
+        0.04227177053689957,
+        1.0
+      ],
+      "name": "catasta_legno_0"
+    },
+    {
+      "mesh": 0,
+      "name": "Object_4"
+    },
+    {
+      "mesh": 1,
+      "name": "Object_5"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    },
+    {
+      "sampler": 0,
+      "source": 3
+    },
+    {
+      "sampler": 0,
+      "source": 4
+    },
+    {
+      "sampler": 0,
+      "source": 5
+    },
+    {
+      "sampler": 0,
+      "source": 6
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+NotoSansDevanagari-Regular.ttf and NotoSansOlChiki-Regular.ttf are part of the
+Noto Sans font family, developed by Google, and are licensed under the SIL
+Open Font License, Version 1.1 (https://openfontlicense.org/) -- free to use,
+modify, and embed/redistribute in this application, including in a compiled
+APK, with no royalty or attribution requirement in the running app itself.
+
+NotoSansSymbols2-Regular.ttf is also part of the Noto family under the same
+SIL Open Font License -- used to supply ✓/✗/⚠ and similar general symbols the
+UI font (Liberation Sans) doesn't include.
+
+Source: https://github.com/notofonts/noto-fonts
+(hinted/ttf/NotoSansDevanagari/NotoSansDevanagari-Regular.ttf,
+ hinted/ttf/NotoSansOlChiki/NotoSansOlChiki-Regular.ttf,
+ hinted/ttf/NotoSansSymbols2/NotoSansSymbols2-Regular.ttf)
+
+Not used: Windows' bundled Devanagari fonts (e.g. Mangal) -- those ship under
+a Microsoft license scoped to use within Windows itself, not for
+redistribution inside a third-party application.
