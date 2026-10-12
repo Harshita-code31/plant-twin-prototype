@@ -94,7 +94,7 @@ function renderAppbar() {
     ? `<a class="btn small" href="${esc(CONFIG.copilotUrl)}" target="_blank" rel="noopener">${t("nav_copilot")}</a>`
     : `<span class="btn small" aria-disabled="true" title="${esc(t("copilot_soon"))}">${t("nav_copilot")}</span>`;
   $("#appbar").innerHTML = `
-    <a class="brand" href="#home"><b>${t("app_name")}</b><span class="tag-code">${CONFIG.unit.tag}</span></a>
+    <a class="brand" href="#home" aria-label="Anubhav"><b>ANUBHAV</b><span class="brand-hi" lang="hi">अनुभव</span></a>
     <nav>
       <a class="btn small" href="#home">${t("nav_home")}</a>
       <a class="btn small" href="#map">${t("nav_map")}</a>
@@ -155,10 +155,13 @@ function renderHome() {
     const v = s.veteran;
     return `
       <article class="panel vault-card">
-        <div>
-          <h3>${esc(v.name)}</h3>
-          <p class="muted">${esc(L(v.role))}</p>
-          <p class="tag-code">${esc(L(v.incident))}</p>
+        <div class="vault-head">
+          <div>
+            <div class="eyebrow">${esc(L(v.incident))}</div>
+            <h3>${esc(v.name)}</h3>
+            <p class="muted">${esc(L(v.role))}</p>
+          </div>
+          <div class="years"><b>${v.years}</b><span>${t("years_label")}</span></div>
         </div>
         <blockquote>${esc(L(v.quote))}</blockquote>
         <dl>
@@ -171,13 +174,34 @@ function renderHome() {
       </article>`;
   }).join("");
 
+  const copilotHref = CONFIG.copilotUrl ? esc(copilotLink("", "")) : "";
+  const pillar = (key, attrs) => `
+      <${attrs.tag} class="pillar" ${attrs.extra}>
+        <span class="eyebrow">${t(`pillar_${key}_tag`)}</span>
+        <h3>${t(`pillar_${key}_t`)}</h3>
+        <p>${t(`pillar_${key}_d`)}</p>
+      </${attrs.tag}>`;
+  const vet = SCENARIOS[0].veteran;
+
   $("#view").innerHTML = `
-    <div class="page">
+    <div class="page home">
       <section class="hero">
-        <div class="eyebrow">${CONFIG.unit.tag} · ${esc(L(CONFIG.unit.name))}</div>
+        <div class="lockup"><span class="lockup-hi" lang="hi">अनुभव</span><span class="lockup-en">ANUBHAV</span></div>
         <h1>${t("hero_title")}</h1>
         <p>${t("hero_body")}</p>
+        <div class="compress">
+          <div><b>${vet.years}<small>${t("compress_unit_years")}</small></b><span>${t("compress_years")}</span></div>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div><b>3<small>${t("compress_unit_minutes")}</small></b><span>${t("compress_minutes")}</span></div>
+        </div>
       </section>
+
+      <nav class="pillars" aria-label="Anubhav">
+        ${pillar("copilot", copilotHref ? { tag: "a", extra: `href="${copilotHref}" target="_blank" rel="noopener"` } : { tag: "div", extra: "" })}
+        ${pillar("twin", { tag: "button", extra: 'type="button" data-scroll="drills"' })}
+        ${pillar("vault", { tag: "button", extra: 'type="button" data-scroll="vault"' })}
+        ${pillar("map", { tag: "a", extra: 'href="#map"' })}
+      </nav>
 
       <section class="panel">
         <h3>${t("profile_title")}</h3>
@@ -194,17 +218,22 @@ function renderHome() {
         <p id="name-msg" class="muted" hidden>${t("name_needed")}</p>
       </section>
 
-      <section class="section">
+      <section class="section" id="drills">
         <div class="section-head"><h2>${t("drills_title")}</h2><p class="muted">${t("drills_note")}</p></div>
         <div class="grid-2">${cards}</div>
       </section>
 
-      <section class="section">
+      <section class="section" id="vault">
         <div class="section-head"><h2>${t("vault_title")}</h2><p class="muted">${t("vault_body")}</p></div>
         <div class="grid-2">${vault}</div>
       </section>
+
+      <p class="site-note">${t("site_note")} ${CONFIG.unit.tag} · ${esc(L(CONFIG.unit.name))}</p>
     </div>`;
 
+  document.querySelectorAll("[data-scroll]").forEach((b) => {
+    b.onclick = () => document.getElementById(b.dataset.scroll)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
   const nameEl = $("#trainee-name");
   nameEl.oninput = () => setProfile({ ...getProfile(), name: nameEl.value });
   $("#mentor").onchange = (e) => setProfile({ ...getProfile(), mentorId: e.target.value });

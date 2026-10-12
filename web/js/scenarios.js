@@ -159,6 +159,7 @@ const gasLeak = {
   },
   veteran: {
     name: "Ramesh Yadav",
+    years: 28,
     role: { en: "Shift in-charge, 28 years, retired 2025", hi: "शिफ्ट इंचार्ज, 28 वर्ष, 2025 में सेवानिवृत्त" },
     incident: { en: "Booster compressor flange gasket failure, 2011", hi: "बूस्टर कंप्रेसर फ्लेंज गैस्केट विफलता, 2011" },
     quote: {
@@ -410,6 +411,7 @@ const compressorTrip = {
   },
   veteran: {
     name: "Sunita Meena",
+    years: 31,
     role: { en: "Rotating equipment technician, 31 years", hi: "रोटेटिंग इक्विपमेंट तकनीशियन, 31 वर्ष" },
     incident: { en: "Repeated K-101 vibration trips, 2019", hi: "K-101 के बार-बार वाइब्रेशन ट्रिप, 2019" },
     quote: {

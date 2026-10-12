@@ -74,7 +74,7 @@ function textTexture(lines, { bg = "#1f6b3a", fg = "#ffffff", w = 256, h = 128, 
     ctx.fillStyle = f;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.font = `600 ${size}px "Barlow Condensed", "Arial Narrow", sans-serif`;
+    ctx.font = `600 ${size}px "Rajdhani", "Arial Narrow", sans-serif`;
     const step = h / (ls.length + 1);
     ls.forEach((l, i) => ctx.fillText(l, w / 2, step * (i + 1)));
   };
