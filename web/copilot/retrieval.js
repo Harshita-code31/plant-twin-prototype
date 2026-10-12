@@ -52,7 +52,7 @@
           "3. Evacuate by the site's designated safe route, favouring upwind where safe. Report to the muster point and do not re-enter until cleared.",
           "4. Avoid ignition sources. Emergency shutdown and isolation are for authorised staff following the approved site procedure.",
           "Illustrative compressor-skid training sample only — not an approved plant-wide or gas-specific SOP."
-        ].join("\\n"),
+        ].join("\n"),
         hi: [
           "⚠️ संभावित गैस रिसाव: अगर यह सच में अभी हो रहा है, साइट की आपात योजना अपनाएँ — इस प्रशिक्षण चैट पर निर्भर न रहें।",
           "1. काम तुरंत रोकें और रिसाव से दूर हटें। पास जाकर जाँच या मरम्मत न करें।",
@@ -60,7 +60,7 @@
           "3. साइट के निर्धारित सुरक्षित रास्ते से निकलें; जहाँ सुरक्षित हो हवा की विपरीत दिशा चुनें। मस्टर पॉइंट पर उपस्थिति दर्ज करें और अनुमति तक वापस न जाएँ।",
           "4. आग या चिंगारी के स्रोतों से बचें। ESD और आइसोलेशन केवल अधिकृत कर्मचारी स्वीकृत प्रक्रिया से करें।",
           "यह कंप्रेसर स्किड का केवल प्रशिक्षण उदाहरण है, स्वीकृत प्लांट या गैस-विशिष्ट SOP नहीं।"
-        ].join("\\n")
+        ].join("\n")
       };
       return {answer:guidance[lang],sources:refs(doc,cited),mode:"emergency-demo",intent};
     }
