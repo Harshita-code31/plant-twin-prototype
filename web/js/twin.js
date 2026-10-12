@@ -103,6 +103,45 @@ function dotTexture() {
   return tex;
 }
 
+/**
+ * Loads a .gltf.json whose buffer is embedded as a base64 data: URI, without fetching that URI:
+ * pages with a strict connect-src policy refuse data: fetches. The buffer is decoded here and
+ * the model is handed to the loader as an in-memory GLB.
+ */
+async function loadEmbeddedGltf(loader, url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
+  const json = await res.json();
+  if (json.buffers?.length !== 1) throw new Error(`${url}: expected exactly one buffer`);
+  const uri = json.buffers[0].uri || "";
+  const comma = uri.indexOf(",");
+  if (!uri.startsWith("data:") || comma < 0) throw new Error(`${url}: buffer is not embedded`);
+  const raw = atob(uri.slice(comma + 1));
+  const bin = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i++) bin[i] = raw.charCodeAt(i);
+  json.buffers[0] = { byteLength: bin.length };
+
+  const pad4 = (n) => (n + 3) & ~3;
+  const jsonBytes = new TextEncoder().encode(JSON.stringify(json));
+  const jsonLen = pad4(jsonBytes.length);
+  const binLen = pad4(bin.length);
+  const glb = new ArrayBuffer(12 + 8 + jsonLen + 8 + binLen);
+  const dv = new DataView(glb);
+  const u8 = new Uint8Array(glb);
+  dv.setUint32(0, 0x46546c67, true); // "glTF"
+  dv.setUint32(4, 2, true);
+  dv.setUint32(8, glb.byteLength, true);
+  dv.setUint32(12, jsonLen, true);
+  dv.setUint32(16, 0x4e4f534a, true); // "JSON"
+  u8.set(jsonBytes, 20);
+  u8.fill(0x20, 20 + jsonBytes.length, 20 + jsonLen);
+  const binStart = 20 + jsonLen;
+  dv.setUint32(binStart, binLen, true);
+  dv.setUint32(binStart + 4, 0x004e4942, true); // "BIN"
+  u8.set(bin, binStart + 8);
+  return new Promise((resolve, reject) => loader.parse(glb, "", resolve, reject));
+}
+
 /** A simple particle stream: a fixed pool of points, recycled as they age out. */
 class Plume {
   constructor(scene, { count, color, size, opacity, life }) {
@@ -376,11 +415,16 @@ export class Twin {
 
   loadModel() {
     const loader = new GLTFLoader();
-    const tryLoad = (i) =>
-      new Promise((resolve, reject) => loader.load(MODEL_URLS[i], resolve, undefined, reject)).catch((err) => {
+    const tryLoad = (i) => {
+      const url = MODEL_URLS[i];
+      const attempt = url.endsWith(".json")
+        ? loadEmbeddedGltf(loader, url)
+        : new Promise((resolve, reject) => loader.load(url, resolve, undefined, reject));
+      return attempt.catch((err) => {
         if (i + 1 < MODEL_URLS.length) return tryLoad(i + 1);
         throw err;
       });
+    };
     this._ready = tryLoad(0)
       .then((gltf) => {
         this.buildModelSkid(gltf.scene);
