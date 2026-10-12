@@ -1,0 +1,38 @@
+{
+  "id": "SOP-EC-006",
+  "revision": "DRAFT-0.1",
+  "label": "Illustrative sample — not an approved procedure",
+  "title": "Emergency reporting and communication",
+  "scenario": "emergency_communications",
+  "keywords": [
+    "emergency",
+    "communication",
+    "radio",
+    "alarm",
+    "muster",
+    "supervisor",
+    "control room",
+    "report",
+    "evacuation"
+  ],
+  "sections": [
+    {
+      "number": "1",
+      "heading": "Raise the alarm and report clearly",
+      "en": "Use the site's designated emergency alarm or radio channel. Inform the control room of location, incident type, observed hazard, potential injuries and your safe callback point. Do not delay evacuation to gather more information.",
+      "hi": "साइट के निर्धारित आपात अलार्म या रेडियो चैनल का उपयोग करें। कंट्रोल रूम को घटना का स्थान, प्रकार, दिखा जोखिम, संभावित चोट और अपना सुरक्षित संपर्क स्थान बताएं। अधिक जानकारी जुटाने के लिए निकासी में देरी न करें।"
+    },
+    {
+      "number": "2",
+      "heading": "Follow directions and muster",
+      "en": "Follow directions of the incident controller and designated wardens. Move along the safe evacuation route to your muster point and participate in headcount. Report missing people immediately; do not attempt an unauthorised rescue.",
+      "hi": "इंसिडेंट कंट्रोलर और वार्डन के निर्देश मानें। सुरक्षित निकासी मार्ग से मस्टर पॉइंट पहुँचें और उपस्थिति दर्ज कराएं। लापता व्यक्ति की तुरंत सूचना दें; बिना अनुमति बचाव में न जाएं।"
+    },
+    {
+      "number": "3",
+      "heading": "Document after the incident",
+      "en": "When the situation is safe, record the timeline, observations, notifications and handover in the approved incident log. Share lessons learned through the formal debrief, not unverified rumours.",
+      "hi": "स्थिति सुरक्षित होने पर समयरेखा, अवलोकन, सूचना और हैंडओवर स्वीकृत घटना लॉग में दर्ज करें। सीख को औपचारिक डिब्रीफ में साझा करें, अपुष्ट अफ़वाहों में नहीं।"
+    }
+  ]
+}

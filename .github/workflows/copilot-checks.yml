@@ -1,0 +1,101 @@
+name: Verify ANUBHAV SOP copilot
+
+on:
+  push:
+    branches: [copilot, copilot-claude-integration]
+    paths:
+      - "web/copilot/**"
+      - "api/**"
+      - "package.json"
+      - "vercel.json"
+      - ".github/workflows/copilot-checks.yml"
+  pull_request:
+    branches: [main, copilot]
+    paths:
+      - "web/copilot/**"
+      - "api/**"
+      - "package.json"
+      - "vercel.json"
+      - ".github/workflows/copilot-checks.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  copilot-smoke-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out copilot code
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            web/copilot
+            api
+            vercel.json
+            package.json
+          lfs: false
+      - name: Verify JavaScript syntax and SOP JSON
+        run: |
+          node --check web/copilot/app.js
+          node --check api/copilot.js
+          node - <<'JS'
+          const assert = require("node:assert/strict");
+          const fs = require("node:fs");
+          const root = "web/copilot/sops/";
+          const names = JSON.parse(fs.readFileSync(root + "index.json", "utf8"));
+          assert.equal(names.length, 6);
+          for (const name of names) {
+            const sop = JSON.parse(fs.readFileSync(root + name, "utf8"));
+            assert(sop.id && sop.revision && sop.sections.length > 0);
+            assert(sop.label.includes("not an approved procedure"));
+            for (const section of sop.sections) {
+              assert(section.number && section.heading && section.en && section.hi);
+            }
+          }
+          console.log("Six sample SOPs parsed and validated.");
+          JS
+      - name: Check SOP retrieval and refused questions
+        env:
+          ANTHROPIC_API_KEY: ""
+        run: |
+          node - <<'JS'
+          const assert = require("node:assert/strict");
+          const handler = require("./api/copilot.js");
+          async function ask(question, lang = "en") {
+            const res = {
+              statusCode: 200,
+              setHeader() {},
+              status(n) { this.statusCode = n; return this; },
+              json(body) { return { status: this.statusCode, body }; }
+            };
+            return handler({ method: "POST", body: { question, lang } }, res);
+          }
+          (async () => {
+            let r = await ask("कंप्रेसर ट्रिप हो गया, क्या करूँ?", "hi");
+            assert.equal(r.status, 200);
+            assert(r.body.sources.some(s => s.id === "SOP-CP-002"));
+            console.log("PASS Hindi compressor-trip SOP retrieval");
+            r = await ask("What's the LEL alarm limit?");
+            assert(r.body.sources.some(s => s.id === "SOP-GT-003"));
+            assert(!r.body.answer.includes("10% LEL") && !r.body.answer.includes("20% LEL"));
+            console.log("PASS LEL question — no fabricated threshold");
+            r = await ask("Gas leak at the discharge flange, what first?");
+            assert(r.body.sources.some(s => s.id === "SOP-GC-004"));
+            console.log("PASS gas leak initial-response retrieval");
+            r = await ask("What is the cafeteria menu today?");
+            assert.equal(r.body.sources.length, 0);
+            assert.equal(r.body.answer, "This isn’t covered in the SOPs — ask your shift supervisor.");
+            console.log("PASS refusal of unsupported question");
+          })().catch(error => { console.error(error); process.exitCode = 1; });
+          JS
+      - name: Check Claude grounding rules with a fake client
+        run: node --test api/copilot.test.js
+      - name: Verify local static HTTP serving
+        run: |
+          python3 -m http.server 8000 > /tmp/copilot-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid || true' EXIT
+          sleep 2
+          curl -fsS http://127.0.0.1:8000/web/copilot/ | grep -q "ANUBHAV"
+          curl -fsS http://127.0.0.1:8000/web/copilot/sops/index.json | grep -q "compressor-trip.json"
+          echo "PASS static local server and SOP index"
