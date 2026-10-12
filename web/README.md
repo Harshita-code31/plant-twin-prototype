@@ -1,5 +1,7 @@
 # Anubhav web prototype
 
+**Live:** https://plant-twin-prototype.vercel.app/web/ (deployed from `main` on Vercel; `/` redirects here).
+
 A phone-friendly browser prototype for PS2 (*Anubhav: compressing years of experience through
 technology and behaviour*). It covers three of the four parts of the platform:
 
@@ -8,7 +10,7 @@ technology and behaviour*). It covers three of the four parts of the platform:
 | 3D plant digital twin | The K-101 gas compressor skid in the browser (three.js), with live simulated readings, alarms, a gas cloud and flare. `js/twin.js`, `js/scenarios.js` |
 | Experience Vault | Veteran decisions (what they noticed, what they chose, why) shown on the home page, as hints during a drill, and in the debrief. `veteran` in `js/scenarios.js` |
 | Mentor, debrief and competency map | Debrief after every drill with a mentor discussion, notes and sign-off; competency map with time to competency. `js/app.js`, `js/competency.js` |
-| SOP copilot | Built separately. Set `copilotUrl` in `js/config.js` and the "Ask SOP" buttons link to it. |
+| SOP copilot | `web/copilot/` (see its README). The "Ask SOP" buttons open it with a pre-filled question in the trainee's language; `copilotUrl` in `js/config.js` points at it. |
 
 Everything works in English and Hindi.
 
