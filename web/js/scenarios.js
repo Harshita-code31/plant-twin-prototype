@@ -92,6 +92,7 @@ const gasLeak = {
   rarity: { en: "Last real event on this unit: 2011", hi: "इस यूनिट पर पिछली असली घटना: 2011" },
   severity: "alarm",
   sop: { id: "SOP-GL-01", title: { en: "Hydrocarbon gas release at K-101", hi: "K-101 पर हाइड्रोकार्बन गैस रिसाव" } },
+  copilotQuestion: { en: "Gas leak at the discharge flange, what first?", hi: "डिस्चार्ज फ्लेंज पर गैस लीक हो रही है, सबसे पहले क्या करें?" },
   skills: ["recognise", "communicate", "isolate", "evacuate"],
   walkdownSeconds: 45,
   briefing: {
@@ -336,6 +337,7 @@ const compressorTrip = {
   rarity: { en: "Last real event on this unit: 2019", hi: "इस यूनिट पर पिछली असली घटना: 2019" },
   severity: "warn",
   sop: { id: "SOP-CT-02", title: { en: "K-101 trip response and restart", hi: "K-101 ट्रिप प्रतिक्रिया और रीस्टार्ट" } },
+  copilotQuestion: { en: "Compressor tripped, what do I do?", hi: "कंप्रेसर ट्रिप हो गया, क्या करूँ?" },
   skills: ["recognise", "communicate", "diagnose", "restart"],
   walkdownSeconds: 45,
   briefing: {

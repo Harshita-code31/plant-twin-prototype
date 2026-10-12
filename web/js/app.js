@@ -12,6 +12,14 @@ const mmss = (sec) => {
   const s = Math.max(0, Math.floor(sec));
   return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
 };
+/** Link to the SOP copilot, pre-filling a question in the current language (copilot reads q, lang, scenario). */
+function copilotLink(question, scenarioId) {
+  const url = new URL(CONFIG.copilotUrl, location.href);
+  url.searchParams.set("lang", getLang());
+  if (question) url.searchParams.set("q", question);
+  if (scenarioId) url.searchParams.set("scenario", scenarioId);
+  return url.toString();
+}
 const mentorById = (id) => CONFIG.mentors.find((m) => m.id === id) || CONFIG.mentors[0];
 
 /** Renders a drill message: an i18n key reference, a { en, hi } object, or a plain string. */
@@ -415,6 +423,7 @@ function renderPrompt() {
         <span class="muted mono" id="walk-count"></span>
         <span style="display:flex;gap:.4rem;flex-wrap:wrap">
           <button class="btn small" id="hint-btn" type="button">${t("hint_btn", { name: vet })}</button>
+          ${askSopButton(d.scn)}
           <button class="btn small primary" id="finish-btn" type="button" ${d.pendingEventAt != null ? "disabled" : ""}>${t("finish_walkdown")}</button>
         </span>
       </div>`;
@@ -428,13 +437,21 @@ function renderPrompt() {
       ${hint}
       <div class="row">
         <span class="muted">${d.hints ? t("hints_n", { n: d.hints }) : ""}</span>
-        <button class="btn small" id="hint-btn" type="button">${t("hint_btn", { name: vet })}</button>
+        <span style="display:flex;gap:.4rem;flex-wrap:wrap">
+          ${askSopButton(d.scn)}
+          <button class="btn small" id="hint-btn" type="button">${t("hint_btn", { name: vet })}</button>
+        </span>
       </div>`;
   }
   $("#hint-btn").onclick = () => {
     app.hintText = d.hint();
     renderPrompt();
   };
+}
+
+function askSopButton(scn) {
+  if (!CONFIG.copilotUrl) return "";
+  return `<a class="btn small" href="${esc(copilotLink(L(scn.copilotQuestion), scn.id))}" target="_blank" rel="noopener">${t("nav_copilot")}</a>`;
 }
 
 function showBriefing() {
@@ -559,7 +576,10 @@ function renderDebrief() {
 
   const rows = scn.steps.map((st) => {
     const d = a.done[st.id];
-    const you = d ? `${d.rt.toFixed(0)} s${d.orderOk ? "" : ` <span class="chip warn">${t("out_of_order")}</span>`}` : `<span class="chip alarm">${t("not_done")}</span>`;
+    const ask = CONFIG.copilotUrl
+      ? ` <a href="${esc(copilotLink(L(st.label), scn.id))}" target="_blank" rel="noopener">${t("nav_copilot")}</a>`
+      : "";
+    const you = d ? `${d.rt.toFixed(0)} s${d.orderOk ? "" : ` <span class="chip warn">${t("out_of_order")}</span>${ask}`}` : `<span class="chip alarm">${t("not_done")}</span>${ask}`;
     return `<tr>
       <td>${esc(L(st.label))}${st.critical ? "" : ` <span class="muted">(${getLang() === "hi" ? "वैकल्पिक" : "optional"})</span>`}</td>
       <td class="num">${you}</td>
@@ -585,7 +605,7 @@ function renderDebrief() {
 
   const vetEnd = Math.max(...scn.steps.filter((s) => s.critical).map((s) => s.vet));
   const askSop = CONFIG.copilotUrl
-    ? `<a class="btn small" href="${esc(CONFIG.copilotUrl)}" target="_blank" rel="noopener">${t("nav_copilot")} · ${scn.sop.id}</a>`
+    ? `<a class="btn small" href="${esc(copilotLink(L(scn.copilotQuestion), scn.id))}" target="_blank" rel="noopener">${t("nav_copilot")}</a>`
     : "";
 
   $("#view").innerHTML = `
