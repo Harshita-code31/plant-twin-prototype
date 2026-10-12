@@ -1,0 +1,46 @@
+{
+  "id": "SOP-CP-002",
+  "revision": "DRAFT-0.1",
+  "label": "Illustrative sample — not an approved procedure",
+  "title": "Compressor trip — initial response",
+  "scenario": "compressor_trip",
+  "keywords": [
+    "compressor",
+    "trip",
+    "first-out",
+    "reset",
+    "restart",
+    "lube",
+    "lubrication",
+    "oil",
+    "filter",
+    "maintenance",
+    "fault"
+  ],
+  "sections": [
+    {
+      "number": "1",
+      "heading": "Do not reset or restart blindly",
+      "en": "On a compressor trip, keep the unit in a safe stopped state. Record the trip time and read the first-out alarm and associated alarms. Do not clear, reset or restart the unit before the root cause is identified and restart is authorised.",
+      "hi": "कंप्रेसर ट्रिप होने पर मशीन को सुरक्षित रूप से बंद स्थिति में रखें। ट्रिप का समय, पहला दर्ज हुआ अलार्म (first-out) और संबंधित अलार्म दर्ज करें। कारण का पता और पुनः शुरू करने की अनुमति मिलने से पहले रीसेट या रीस्टार्ट न करें।"
+    },
+    {
+      "number": "2",
+      "heading": "Check the lube oil system",
+      "en": "From approved and safe monitoring points, review lube oil pressure, temperature, pump status and filter differential pressure. If a filter changeover is indicated, only trained and authorised staff may switch to the standby filter under the approved site procedure.",
+      "hi": "स्वीकृत सुरक्षित मॉनिटरिंग पॉइंट से ल्यूब ऑयल का दबाव, तापमान, पंप की स्थिति और फ़िल्टर डिफरेंशियल प्रेशर देखें। ज़रूरत होने पर स्टैंडबाय फ़िल्टर में बदलाव केवल प्रशिक्षित और अधिकृत कर्मचारी स्वीकृत प्रक्रिया से करें।"
+    },
+    {
+      "number": "3",
+      "heading": "Log, escalate and diagnose",
+      "en": "Log the first-out alarm, observed indications, and all actions taken. Inform the shift supervisor and maintenance team for troubleshooting. Check interlocks and the cause using the approved diagnostic procedure, not guesswork.",
+      "hi": "पहला अलार्म, दर्ज संकेत और की गई कार्रवाइयाँ लॉग करें। जाँच के लिए शिफ्ट सुपरवाइज़र और मेंटेनेंस टीम को सूचित करें। इंटरलॉक और कारण की जाँच स्वीकृत प्रक्रिया से करें, अनुमान से नहीं।"
+    },
+    {
+      "number": "4",
+      "heading": "Restart only after clearance",
+      "en": "Restart only after the fault has been rectified, safety checks completed and authorised operations personnel grant clearance. Follow the facility's approved start-up checklist. This sample gives no restart setpoints or bypass instructions.",
+      "hi": "खराबी दूर होने, सुरक्षा जाँच पूरी होने और अधिकृत संचालन कर्मचारी की अनुमति मिलने पर ही रीस्टार्ट करें। प्लांट की स्वीकृत स्टार्ट-अप चेकलिस्ट अपनाएं। इस नमूने में रीस्टार्ट सेटपॉइंट या बायपास निर्देश नहीं दिए गए हैं।"
+    }
+  ]
+}
