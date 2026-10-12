@@ -12,7 +12,7 @@
   const noLEL={en:"This sample SOP does not specify a numerical LEL alarm limit. Obtain the approved, site-specific detector setpoint and action matrix from the control room or shift supervisor.",hi:"इस नमूना SOP में LEL अलार्म की कोई संख्यात्मक सीमा नहीं दी गई है। स्वीकृत साइट-विशिष्ट सेटपॉइंट और कार्रवाई सूची कंट्रोल रूम या शिफ्ट सुपरवाइज़र से लें।"};
   function detectLanguage(q){
     if(/[\u0900-\u097F]/u.test(q))return "hi";
-    return /\b(?:hone|hota|hoti|gaya|gayi|karna|karun|karoon|kya|chahiye|kaise|batao|sabse|pehle|mujhe|mein|me|hai)\b/i.test(q)?"hi":"en";
+    return /\b(?:mere|meri|mujhe|kya|karu|karun|karoon|karna|krna|kaise|chahiye|hue|hui|hua|gaya|gayi|hone|hota|hoti|sabse|pehle|batao|bataiye|mein|hai|hain)\b/i.test(q)?"hi":"en";
   }
   function getIntent(question){
     const q=question.toLowerCase();
@@ -39,6 +39,30 @@
     if(!doc)return {answer:unsupported[lang],sources:[],mode:"refusal",intent:null};
     if((intent==="trip"||intent==="leak")&&/\b(?:pressure|temperature|rpm|speed|setpoint|threshold|psi|bar|torque)\b|दबाव|तापमान|सेटपॉइंट/u.test(q)&&/\b(?:exact|specific|value|number|how\s+much|what\s+is|what's|required|minimum|maximum|limit|setting|restart)\b|सटीक|कितना|सीमा/u.test(q)){
       return {answer:banner[lang]+"\n"+noValue[lang],sources:refs(doc,intent==="trip"?sections(doc,[4]):[]),mode:"missing-value",intent};
+    }
+    // A suspected active gas leak requires immediate, short actions first.
+    // No assumption is made about the real location, gas type or compressor equipment.
+    if(intent==="leak"){
+      const cited=sections(doc,[1,4,2]);
+      const guidance={
+        en: [
+          "⚠️ POSSIBLE GAS LEAK: If this is happening now, follow the site's emergency plan — do not rely on this training demo.",
+          "1. Stop work and move away from the suspected leak. Do not approach, investigate or attempt repairs.",
+          "2. From a safe location, raise the site emergency alarm and notify the control room of the location and observed hazard.",
+          "3. Evacuate by the site's designated safe route, favouring upwind where safe. Report to the muster point and do not re-enter until cleared.",
+          "4. Avoid ignition sources. Emergency shutdown and isolation are for authorised staff following the approved site procedure.",
+          "Illustrative compressor-skid training sample only — not an approved plant-wide or gas-specific SOP."
+        ].join("\\n"),
+        hi: [
+          "⚠️ संभावित गैस रिसाव: अगर यह सच में अभी हो रहा है, साइट की आपात योजना अपनाएँ — इस प्रशिक्षण चैट पर निर्भर न रहें।",
+          "1. काम तुरंत रोकें और रिसाव से दूर हटें। पास जाकर जाँच या मरम्मत न करें।",
+          "2. सुरक्षित स्थान से आपातकालीन अलार्म दें और कंट्रोल रूम को स्थान व खतरे की सूचना दें।",
+          "3. साइट के निर्धारित सुरक्षित रास्ते से निकलें; जहाँ सुरक्षित हो हवा की विपरीत दिशा चुनें। मस्टर पॉइंट पर उपस्थिति दर्ज करें और अनुमति तक वापस न जाएँ।",
+          "4. आग या चिंगारी के स्रोतों से बचें। ESD और आइसोलेशन केवल अधिकृत कर्मचारी स्वीकृत प्रक्रिया से करें।",
+          "यह कंप्रेसर स्किड का केवल प्रशिक्षण उदाहरण है, स्वीकृत प्लांट या गैस-विशिष्ट SOP नहीं।"
+        ].join("\\n")
+      };
+      return {answer:guidance[lang],sources:refs(doc,cited),mode:"emergency-demo",intent};
     }
     if(intent==="lel"&&/\blel\b|एलईएल|लेल/iu.test(q)&&/\b(?:limit|threshold|setpoint|alarm|value)\b|सीमा|अलार्म|कितना/iu.test(q)){
       return {answer:banner[lang]+"\n"+noLEL[lang],sources:refs(doc,sections(doc,[2])),mode:"missing-lel",intent};
