@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anubhav Plant Twin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Devanagari:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three/three.module.min.js", "three/addons/": "./vendor/three/addons/" } }
+</script>
+</head>
+<body>
+<header class="appbar" id="appbar"></header>
+<main id="view"></main>
+
+<section class="drill" id="drill" hidden aria-label="Drill">
+  <div class="labels" id="labels"></div>
+  <div class="hud-top">
+    <div class="hud-bar" id="hud-top"></div>
+    <div class="alarm-banner" id="alarm" role="alert" hidden></div>
+    <details class="sensors" id="sensors" open>
+      <summary id="sensors-title">Live readings</summary>
+      <div id="sensor-rows"></div>
+    </details>
+  </div>
+  <div class="prompt" id="prompt" hidden></div>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <div class="sheet" id="sheet" hidden></div>
+  <div class="overlay" id="overlay" hidden></div>
+</section>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
