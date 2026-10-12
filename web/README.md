@@ -69,3 +69,19 @@ The CAD has no part names, so tappable equipment is defined by hit boxes in metr
 along with the leak point, stack tip and gas detector position (`MODEL_POINTS`). `MODEL_ROTATION_X` and `MODEL_OFFSET`
 stand the Z-down CAD upright and centre it. If the model fails to load, `buildPrimitiveSkid()` draws a stand-in so the
 drills still run.
+
+## Android app (APK)
+
+The web app is installable (`manifest.webmanifest`, icons in `icons/`) and works offline once
+loaded (`sw.js` caches the app, the 3D model and the copilot's SOPs; the copilot's AI needs the
+network and otherwise quotes the SOP). To package it for Android:
+
+1. Open [pwabuilder.com](https://www.pwabuilder.com), enter `https://plant-twin-prototype.vercel.app/web/` and start.
+2. **Package for stores → Android → Generate package** (package ID e.g. `app.vercel.plant_twin_prototype`).
+3. The download contains a signed `.apk` for installing directly and an `.aab` for the Play Store,
+   plus `assetlinks.json` and a signing key. **Keep the key file**: updates must be signed with it.
+4. Optional: to hide the browser address bar inside the app, commit the generated `assetlinks.json`
+   at the repository root as `.well-known/assetlinks.json`, so it is served at
+   `https://plant-twin-prototype.vercel.app/.well-known/assetlinks.json`.
+
+On a phone you can also skip the APK: open the site in Chrome and choose **Add to Home screen / Install app**.

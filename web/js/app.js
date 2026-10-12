@@ -812,3 +812,9 @@ window.anubhavDebug = { app, pick: (id) => onPick(id), modelState: () => app.twi
 renderAppbar();
 watchTheme();
 route();
+
+// Offline support and installability (Android app via PWABuilder). Skipped where service
+// workers are unavailable, such as embedded previews.
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
