@@ -1,12 +1,11 @@
-/* Anubhav: "experience". Layout: a plant drawing sheet. Pages sit on a faint engineering grid;
-   panels are drawing-sheet boxes with hairline borders; the drill is a full-bleed 3D viewport with
-   a control-room HUD over it.
-   Colour: offshore international orange is the brand accent. Safety-sign colours keep their
-   meaning everywhere and are never decorative: red = emergency/alarm, green = safe condition,
-   muster, passed; amber = caution. Hazard tape appears in one place only: the emergency drill.
-   Type: Rajdhani (Indian Type Foundry, Latin + Devanagari) for display and tags; Hind (ITF,
-   Latin + Devanagari) for reading, so Hindi is as designed as English; IBM Plex Mono for tag
-   numbers and readings. */
+/* Anubhav. Layout: a working plant tool, not a landing page. Tabs across the top, a drill
+   register like a permit board, Experience Vault entries set like a shift logbook, and a
+   full-bleed 3D viewport with a control-room HUD for the drill itself.
+   Colour: offshore orange marks what you can act on (primary buttons, the active tab).
+   Safety colours keep their meaning: red emergency, green safe/passed, amber caution.
+   Hazard tape marks the one emergency drill.
+   Type: Rajdhani for headings and tag-like labels, Hind for reading (both carry Devanagari),
+   IBM Plex Mono for tag numbers, SOP references and readings. */
 :root {
   --bg: #e7ece9;
   --grid: rgba(19, 34, 43, 0.055);
@@ -93,10 +92,6 @@ html, body { height: 100%; }
 body {
   margin: 0;
   background-color: var(--bg);
-  background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 24px 24px;
   color: var(--ink);
   font-family: var(--font-body);
   font-size: var(--step-0);
@@ -111,7 +106,7 @@ h1, h2, h3 {
   text-wrap: balance;
   margin: 0;
 }
-h1 { font-size: var(--step-3); }
+h1 { font-size: 2.3rem; }
 h2 { font-size: var(--step-2); }
 h3 { font-size: var(--step-1); line-height: 1.15; }
 :lang(hi) h1, :lang(hi) h2, :lang(hi) h3 { line-height: 1.3; }
@@ -134,10 +129,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .btn[disabled], .btn[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
 .btn.small { min-height: 36px; padding: 0 0.75rem; font-size: var(--step--1); }
 
-.eyebrow {
-  font-family: var(--font-display); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--muted);
-}
+.eyebrow { font-size: var(--step--1); font-weight: 600; color: var(--muted); }
 .tag-code { font-family: var(--font-data); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.02em; }
 .mono { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
 .muted { color: var(--muted); }
@@ -156,49 +148,31 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* ---------- App bar ---------- */
 .appbar {
-  display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
-  padding-block: 0.55rem; padding-inline: 16px;
-  background: var(--surface);
-  border-bottom: 3px solid var(--accent);
+  background: var(--surface); border-bottom: 1px solid var(--line);
   position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  padding-inline: 16px;
 }
-.brand { display: flex; align-items: baseline; gap: 0.55rem; text-decoration: none; color: var(--ink); white-space: nowrap; }
-.brand b { font-family: var(--font-display); font-size: 1.55rem; font-weight: 700; letter-spacing: 0.02em; line-height: 1; }
-.brand .brand-hi { font-family: var(--font-body); font-weight: 600; font-size: 1.25rem; color: var(--accent); line-height: 1; }
-.appbar nav { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: flex-end; }
+.bar-top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; max-width: 1120px; margin: 0 auto; padding-top: 0.5rem; }
+.brand { display: flex; align-items: baseline; gap: 0.45rem; text-decoration: none; color: var(--ink); white-space: nowrap; }
+.brand .brand-hi { font-family: var(--font-body); font-weight: 700; font-size: 1.45rem; color: var(--accent); line-height: 1.2; }
+.brand b { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; line-height: 1; }
+.tabs { display: flex; gap: 1.25rem; max-width: 1120px; margin: 0 auto; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  display: inline-block; padding: 0.55rem 0 0.5rem; white-space: nowrap;
+  color: var(--muted); text-decoration: none; font-weight: 500;
+  border-bottom: 2px solid transparent;
+}
+.tab:hover { color: var(--ink); }
+.tab.active { color: var(--ink); border-bottom-color: var(--accent); }
 
 /* ---------- Document pages ---------- */
-.page { max-width: 1120px; margin: 0 auto; padding-block: 2rem 3.5rem; padding-inline: 16px; display: grid; gap: 2.5rem; }
+.page { max-width: 1120px; margin: 0 auto; padding-block: 1.75rem 3.5rem; padding-inline: 16px; display: grid; gap: 2.25rem; }
 .hero { display: grid; gap: 0.9rem; }
 .hero > p { max-width: 62ch; color: var(--muted); font-size: var(--step-1); }
 .section { display: grid; gap: 1rem; }
-.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem 1.5rem; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: 0.6rem; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem 1.5rem; flex-wrap: wrap; }
 .section-head p { max-width: 60ch; }
-
-/* Home hero: the name in both scripts, then the thesis as two figures. */
-.lockup { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.2rem 1rem; }
-.lockup-hi { font-family: var(--font-body); font-weight: 700; font-size: clamp(3.2rem, 11vw, 6rem); line-height: 1.15; color: var(--accent); }
-.lockup-en { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.3rem, 4vw, 2rem); letter-spacing: 0.32em; color: var(--ink); }
-.home h1 { font-size: clamp(2rem, 5.2vw, var(--step-4)); max-width: 18ch; }
-.compress {
-  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 1rem;
-  max-width: 640px; margin-top: 0.4rem;
-  padding: 1rem 1.1rem; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent);
-  border-radius: var(--radius);
-}
-.compress > div { display: grid; gap: 0.15rem; min-width: 0; }
-.compress b { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.6rem, 8vw, 3.6rem); line-height: 0.9; font-variant-numeric: tabular-nums; }
-.compress b small { font-size: 0.42em; font-weight: 600; letter-spacing: 0.06em; margin-left: 0.15em; color: var(--muted); }
-.compress span { font-size: var(--step--1); color: var(--muted); line-height: 1.35; }
-.compress .arrow { font-family: var(--font-display); font-size: 2rem; color: var(--accent); font-weight: 700; }
-
-/* The four parts of the platform. */
-.pillars { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
-.pillar { display: grid; gap: 0.35rem; align-content: start; padding: 1rem 1.1rem 1.15rem; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); min-width: 0; color: var(--ink); text-decoration: none; background: none; text-align: left; font: inherit; cursor: pointer; border-top: 0; border-left: 0; }
-.pillar:hover { background: var(--accent-soft); }
-.pillar .eyebrow { color: var(--accent); }
-.pillar h3 { font-size: 1.3rem; }
-.pillar p { font-size: var(--step--1); color: var(--muted); }
 
 .grid-2 { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); }
 .panel {
@@ -209,8 +183,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 .profile { display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; align-items: end; }
 .field { display: grid; gap: 0.25rem; min-width: 0; flex: 1 1 200px; }
-.field label { font-family: var(--font-display); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-:lang(hi) .field label { letter-spacing: 0; text-transform: none; font-size: var(--step--1); }
+.field label { font-size: var(--step--1); font-weight: 600; color: var(--muted); }
 .field input, .field select, .field textarea {
   min-height: 46px; padding: 0.5rem 0.75rem; border-radius: var(--radius);
   border: 1px solid var(--line); background: var(--bg);
@@ -218,29 +191,48 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px var(--accent-soft); }
 .field textarea { min-height: 96px; resize: vertical; }
 
-/* Drill cards are permit tags: a hazard band, the SOP reference, the event. */
-.scn-card { position: relative; padding-top: 0; overflow: hidden; }
-.scn-card .meta { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.scn-card .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.2rem; }
-.scn-card h3 { font-size: 1.6rem; }
-.stripe { height: 10px; margin: 0 -1.15rem 0.35rem; background: var(--line); }
-.stripe.alarm { background: repeating-linear-gradient(-45deg, var(--hazard-yellow) 0 12px, var(--hazard-black) 12px 24px); }
-.stripe.warn { background: var(--warn); height: 6px; }
+/* Home: unit header with the trainee's details beside it. */
+.unit-head { display: grid; gap: 1.25rem; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: end; padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
+.unit-head h1 { font-size: clamp(1.9rem, 4.5vw, 2.6rem); }
+.unit-head p { margin-top: 0.6rem; max-width: 60ch; }
+.unit-tag { font-size: 0.45em; color: var(--muted); font-weight: 500; vertical-align: middle; }
+.who { display: grid; gap: 0.75rem; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-width: 0; }
+.who .field { min-width: 0; }
+.field select { width: 100%; min-width: 0; }
+.who .warn-text { grid-column: 1 / -1; }
+.warn-text { color: var(--alarm); font-size: var(--step--1); font-weight: 600; }
 
-/* Vault entries read like a shift logbook page. */
-.vault-card { gap: 0.9rem; }
-.vault-head { display: flex; justify-content: space-between; align-items: start; gap: 1rem; }
-.vault-head > div { min-width: 0; }
-.years { text-align: right; flex: none; }
-.years b { display: block; font-family: var(--font-display); font-weight: 700; font-size: 2.6rem; line-height: 0.9; color: var(--accent); font-variant-numeric: tabular-nums; }
-.years span { font-family: var(--font-display); font-weight: 600; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
-.vault-card blockquote {
-  margin: 0; padding: 0.15rem 0 0.15rem 0.9rem; border-left: 3px solid var(--accent);
-  font-size: 1.2rem; line-height: 1.45; font-weight: 500;
-}
-.vault-card dl { margin: 0; display: grid; gap: 0.6rem; }
-.vault-card dt { font-family: var(--font-display); font-weight: 600; font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
-.vault-card dd { margin: 0; }
+/* Drill register: one row per drill, like a permit board. */
+.register { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); }
+.register th { text-align: left; font-size: var(--step--1); font-weight: 600; color: var(--muted); padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--line); }
+.register td { padding: 0.9rem; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.register tr:last-child td { border-bottom: 0; }
+.c-drill strong { display: block; font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; line-height: 1.15; }
+.c-drill span { display: block; color: var(--muted); font-size: var(--step--1); margin-top: 0.2rem; max-width: 52ch; }
+.c-record { font-size: var(--step--1); color: var(--muted); white-space: nowrap; }
+.c-record.ok { color: var(--ok); font-weight: 600; }
+.c-go { text-align: right; width: 1%; white-space: nowrap; }
+.drill-row td:first-child { position: relative; padding-left: 1.4rem; }
+.drill-row td:first-child::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: var(--line); }
+.drill-row.alarm td:first-child::before { background: repeating-linear-gradient(-45deg, var(--hazard-yellow) 0 8px, var(--hazard-black) 8px 16px); }
+.drill-row.warn td:first-child::before { background: var(--warn); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Experience Vault: logbook lines on the home page, full entries on their own page. */
+.log { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.log-line { display: grid; grid-template-columns: 3.5rem 1fr; gap: 1rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
+.log-year { color: var(--muted); padding-top: 0.2rem; }
+.log-quote { font-size: var(--step-1); line-height: 1.4; font-weight: 500; margin-bottom: 0.2rem; }
+
+.page.narrow { max-width: 760px; }
+.entry { display: grid; gap: 0.5rem; padding-top: 1.75rem; border-top: 2px solid var(--ink); }
+.entry-head { display: flex; gap: 0.75rem; flex-wrap: wrap; color: var(--muted); font-size: var(--step--1); }
+.entry h2 { font-size: 1.9rem; margin-top: 0.4rem; }
+.entry-quote { font-size: 1.35rem; line-height: 1.4; font-weight: 500; margin: 0.6rem 0 0.4rem; max-width: 40ch; }
+.entry-notes { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 0.6rem 1.25rem; margin: 0.6rem 0 0; }
+.entry-notes dt { font-weight: 600; color: var(--muted); font-size: var(--step--1); padding-top: 0.15rem; }
+.entry-notes dd { margin: 0; }
+.entry-foot { margin-top: 0.8rem; }
 .sample-note { font-size: var(--step--1); color: var(--muted); }
 .site-note { font-size: var(--step--1); color: var(--muted); border-top: 1px solid var(--line); padding-top: 1rem; }
 
@@ -272,7 +264,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .hud-top > * { pointer-events: auto; }
 .hud-bar { display: flex; gap: 0.5rem; align-items: center; justify-content: space-between; flex-wrap: wrap; }
 .hud-title { display: grid; min-width: 0; }
-.hud-title .eyebrow { color: var(--accent); }
+
 .hud-title b { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.15; }
 .hud-controls { display: flex; gap: 0.35rem; align-items: center; }
 .timer { font-family: var(--font-data); font-variant-numeric: tabular-nums; font-size: 1.05rem; padding: 0 0.4rem; font-weight: 500; }
@@ -289,10 +281,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .sensors {
   align-self: flex-end;
   width: min(250px, 46vw);
-  background: var(--surface); border: 1px solid var(--line); border-top: 2px solid var(--ink); border-radius: 2px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 2px;
   font-size: 0.75rem; overflow: hidden;
 }
-.sensors summary { cursor: pointer; padding: 0.4rem 0.6rem; font-family: var(--font-display); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.sensors summary { cursor: pointer; padding: 0.4rem 0.6rem; font-weight: 600; font-size: 0.78rem; color: var(--muted); }
 .sensor-row {
   display: grid; grid-template-columns: 1fr auto 1ch; gap: 0.4rem; align-items: baseline;
   padding: 0.3rem 0.6rem; border-top: 1px solid var(--line);
@@ -310,15 +302,15 @@ button, input, select, textarea { font: inherit; color: inherit; }
   position: absolute; left: 12px; right: 12px;
   bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
   max-width: 580px; margin: 0 auto;
-  background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: var(--radius);
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
   padding: 0.8rem 0.95rem; display: grid; gap: 0.55rem; box-shadow: var(--shadow);
 }
 .prompt .row { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; justify-content: space-between; }
-.hint-text { border-left: 3px solid var(--accent); padding-left: 0.6rem; font-size: var(--step--1); }
+.hint-text { font-size: var(--step--1); background: var(--surface-2); padding: 0.5rem 0.65rem; border-radius: var(--radius); }
 
 .sheet {
   position: absolute; left: 0; right: 0; bottom: 0;
-  background: var(--surface); border-top: 3px solid var(--accent);
+  background: var(--surface); border-top: 1px solid var(--line);
   border-radius: 8px 8px 0 0;
   padding-top: 0.9rem; padding-inline: 16px; padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
   display: grid; gap: 0.6rem; max-width: 580px; margin: 0 auto;
@@ -344,7 +336,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   display: grid; place-items: center; padding: 16px;
 }
 .overlay .card {
-  background: var(--surface); border-radius: var(--radius); border: 1px solid var(--line); border-top: 4px solid var(--accent);
+  background: var(--surface); border-radius: var(--radius); border: 1px solid var(--line);
   padding: 1.35rem; max-width: 480px; width: 100%; display: grid; gap: 0.85rem;
   max-height: 100%; overflow: auto; box-shadow: var(--shadow);
 }
@@ -368,7 +360,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .timeline { overflow-x: auto; }
 .timeline table { width: 100%; border-collapse: collapse; font-size: var(--step--1); min-width: 520px; }
 .timeline th, .timeline td { text-align: left; padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--line); vertical-align: top; }
-.timeline th { font-family: var(--font-display); font-weight: 600; color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.timeline th { font-weight: 600; color: var(--muted); font-size: var(--step--1); }
 .timeline td.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 .list { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.6rem; }
@@ -386,13 +378,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.9rem 1rem; display: grid; gap: 0.25rem; }
 .tile b { font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; }
 .tile span { font-size: var(--step--1); color: var(--muted); line-height: 1.3; }
-.tile.accent { border-left: 4px solid var(--accent); }
 
 .map-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
 .map { border-collapse: collapse; width: 100%; min-width: 860px; font-size: var(--step--1); }
 .map th, .map td { padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
-.map thead th { font-family: var(--font-display); font-weight: 600; font-size: 0.78rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
-.map thead tr.group th { border-bottom: none; padding-bottom: 0; color: var(--accent); }
+.map thead th { font-weight: 600; font-size: var(--step--1); color: var(--muted); }
+.map thead tr.group th { border-bottom: none; padding-bottom: 0; color: var(--ink); }
 .map td.cell { text-align: center; }
 .map tr.you td { background: var(--accent-soft); }
 .cellchip {
@@ -414,9 +405,26 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .ttc-track > i.open { background: repeating-linear-gradient(45deg, var(--accent) 0 6px, transparent 6px 10px); border: 1px solid var(--accent); }
 .ttc-target { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--ink); }
 
+@media (max-width: 760px) {
+  .unit-head { grid-template-columns: 1fr; align-items: start; }
+}
+@media (max-width: 620px) {
+  .who { grid-template-columns: 1fr; }
+  .register, .register tbody, .register tr, .register td { display: block; }
+  .register thead { display: none; }
+  .register tr { border-bottom: 1px solid var(--line); position: relative; padding: 0.9rem 0.9rem 0.9rem 1.4rem; }
+  .register tr:last-child { border-bottom: 0; }
+  .register td { padding: 0; border: 0; }
+  .drill-row td:first-child { position: static; padding-left: 0; }
+  .drill-row td:first-child::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; }
+  .c-sop, .c-last, .c-record { display: inline-block !important; margin: 0.5rem 1rem 0 0; font-size: var(--step--1); }
+  .c-sop::before, .c-last::before, .c-record::before { content: attr(data-label) ": "; color: var(--muted); font-family: var(--font-body); }
+  .c-go { text-align: left; width: auto; margin-top: 0.75rem; }
+  .entry-notes { grid-template-columns: 1fr; gap: 0.15rem; }
+  .entry-notes dd { margin-bottom: 0.6rem; }
+}
 @media (max-width: 560px) {
   .page { padding-block: 1.4rem 3rem; gap: 2rem; }
-  .brand .brand-hi { display: none; }
   .sensors { width: 168px; }
   .sensor-row { padding: 0.2rem 0.5rem; }
   .sensor-row .name .full { display: none; }
@@ -424,16 +432,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .hud-title b { font-size: 1.1rem; }
   .label3d small { display: none; }
   .bar-row { grid-template-columns: 6.5rem 1fr 3rem; }
-  .compress { grid-template-columns: 1fr; gap: 0.5rem; }
-  .compress .arrow { transform: rotate(90deg); justify-self: start; line-height: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
   .alarm-banner.flash, .fireflash { animation: none; }
 }
 
-/* Letter-spacing and capitals break Devanagari apart; Hindi labels keep normal spacing. */
-:lang(hi) .eyebrow, :lang(hi) .sensors summary, :lang(hi) .map thead th, :lang(hi) .timeline th,
-:lang(hi) .vault-card dt, :lang(hi) .years span, :lang(hi) .alarm-banner {
+/* Letter-spacing and capitals break Devanagari apart. */
+:lang(hi) .alarm-banner {
   letter-spacing: 0; text-transform: none;
 }
 .score-row > div { justify-items: start; }

@@ -9,7 +9,7 @@ export const CONFIG = {
   // Plant target for time-to-competency, in days, drawn as a line on the competency map.
   targetDays: 45,
 
-  unit: { tag: "K-101", name: { en: "Gas compression unit", hi: "गैस कंप्रेशन यूनिट" } },
+  unit: { tag: "K-101", name: { en: "Fuel gas booster compressor", hi: "फ्यूल गैस बूस्टर कंप्रेसर" } },
 
   mentors: [
     { id: "m1", name: "Anil Sharma", role: { en: "Shift supervisor", hi: "शिफ्ट सुपरवाइज़र" } },

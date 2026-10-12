@@ -90,16 +90,21 @@ const siren = {
 
 // ------------------------------------------------------------------ chrome
 function renderAppbar() {
+  const view = location.hash.replace("#", "") || "home";
+  const tab = (href, key, id) => `<a class="tab${view === id ? " active" : ""}" href="${href}"${view === id ? ' aria-current="page"' : ""}>${t(key)}</a>`;
   const copilot = CONFIG.copilotUrl
-    ? `<a class="btn small" href="${esc(CONFIG.copilotUrl)}" target="_blank" rel="noopener">${t("nav_copilot")}</a>`
-    : `<span class="btn small" aria-disabled="true" title="${esc(t("copilot_soon"))}">${t("nav_copilot")}</span>`;
+    ? `<a class="tab" href="${esc(copilotLink("", ""))}" target="_blank" rel="noopener">${t("nav_copilot")}</a>`
+    : "";
   $("#appbar").innerHTML = `
-    <a class="brand" href="#home" aria-label="Anubhav"><b>ANUBHAV</b><span class="brand-hi" lang="hi">अनुभव</span></a>
-    <nav>
-      <a class="btn small" href="#home">${t("nav_home")}</a>
-      <a class="btn small" href="#map">${t("nav_map")}</a>
-      ${copilot}
+    <div class="bar-top">
+      <a class="brand" href="#home"><span class="brand-hi" lang="hi">अनुभव</span><b>Anubhav</b></a>
       <button class="btn small" id="lang-btn" type="button" lang="${getLang() === "en" ? "hi" : "en"}">${t("lang_toggle")}</button>
+    </div>
+    <nav class="tabs">
+      ${tab("#home", "nav_home", "home")}
+      ${tab("#vault", "nav_vault", "vault")}
+      ${tab("#map", "nav_map", "map")}
+      ${copilot}
     </nav>`;
   $("#lang-btn").onclick = () => {
     setLang(getLang() === "en" ? "hi" : "en");
@@ -115,7 +120,9 @@ function route() {
   }
   const view = location.hash.replace("#", "") || "home";
   window.scrollTo(0, 0);
+  renderAppbar();
   if (view === "map") renderMap();
+  else if (view === "vault") renderVault();
   else if (view === "debrief") renderDebrief();
   else renderHome();
 }
@@ -127,85 +134,69 @@ function scenarioStats(id) {
   return { n: mine.length, best: mine.length ? Math.max(...mine.map((a) => a.score)) : null };
 }
 
+function bindStartButtons() {
+  document.querySelectorAll("[data-start]").forEach((b) => {
+    b.onclick = () => {
+      if (!getProfile().name.trim()) {
+        if (!$("#trainee-name")) {
+          location.hash = "#home";
+          return;
+        }
+        $("#name-msg").hidden = false;
+        $("#trainee-name").focus();
+        return;
+      }
+      startDrill(b.dataset.start);
+    };
+  });
+}
+
+function recordText(st) {
+  return st.n ? `${t("attempts_n", { n: st.n })}, ${t("best_n", { n: st.best })}` : t("not_tried");
+}
+
 function renderHome() {
   const p = getProfile();
   const mentorOptions = CONFIG.mentors
-    .map((m) => `<option value="${m.id}" ${m.id === p.mentorId ? "selected" : ""}>${esc(m.name)} · ${esc(L(m.role))}</option>`)
+    .map((m) => `<option value="${m.id}" ${m.id === p.mentorId ? "selected" : ""}>${esc(m.name)}, ${esc(L(m.role))}</option>`)
     .join("");
 
-  const cards = SCENARIOS.map((s) => {
+  const rows = SCENARIOS.map((s) => {
     const st = scenarioStats(s.id);
+    const passed = st.best != null && st.best >= CONFIG.passMark;
     return `
-      <article class="panel scn-card">
-        <div class="stripe ${s.severity}"></div>
-        <div class="eyebrow">${s.sop.id} · ${esc(L(s.sop.title))}</div>
-        <h3>${esc(L(s.title))}</h3>
-        <p>${esc(L(s.summary))}</p>
-        <div class="meta">
-          <span class="chip">${esc(L(s.rarity))}</span>
-          <span class="chip ${st.best != null && st.best >= CONFIG.passMark ? "ok" : ""}">${st.n ? `${t("attempts_n", { n: st.n })} · ${t("best_n", { n: st.best })}` : t("not_tried")}</span>
-        </div>
-        <div class="actions">
-          <button class="btn primary" type="button" data-start="${s.id}">${t("start_drill")}</button>
-        </div>
-      </article>`;
+      <tr class="drill-row ${s.severity}">
+        <td class="c-drill">
+          <strong>${esc(L(s.title))}</strong>
+          <span>${esc(L(s.summary))}</span>
+        </td>
+        <td class="c-sop" data-label="${esc(t("col_sop"))}"><span class="mono">${s.sop.id}</span></td>
+        <td class="c-last" data-label="${esc(t("col_last"))}"><span class="mono">${s.lastEvent}</span></td>
+        <td class="c-record${passed ? " ok" : ""}" data-label="${esc(t("col_record"))}">${recordText(st)}</td>
+        <td class="c-go"><button class="btn primary" type="button" data-start="${s.id}">${t("start_drill")}</button></td>
+      </tr>`;
   }).join("");
 
-  const vault = SCENARIOS.map((s) => {
+  const entries = SCENARIOS.map((s) => {
     const v = s.veteran;
     return `
-      <article class="panel vault-card">
-        <div class="vault-head">
-          <div>
-            <div class="eyebrow">${esc(L(v.incident))}</div>
-            <h3>${esc(v.name)}</h3>
-            <p class="muted">${esc(L(v.role))}</p>
-          </div>
-          <div class="years"><b>${v.years}</b><span>${t("years_label")}</span></div>
+      <li class="log-line">
+        <span class="mono log-year">${s.lastEvent}</span>
+        <div>
+          <p class="log-quote">“${esc(L(v.quote))}”</p>
+          <p class="muted">${esc(v.name)}, ${esc(L(v.role))}</p>
         </div>
-        <blockquote>${esc(L(v.quote))}</blockquote>
-        <dl>
-          <div><dt>${t("vault_noticed")}</dt><dd>${esc(L(v.noticed))}</dd></div>
-          <div><dt>${t("vault_chose")}</dt><dd>${esc(L(v.chose))}</dd></div>
-          <div><dt>${t("vault_why")}</dt><dd>${esc(L(v.why))}</dd></div>
-        </dl>
-        <div><button class="btn" type="button" data-start="${s.id}">${t("vault_practise")}</button></div>
-        <p class="sample-note">${t("vault_sample")}</p>
-      </article>`;
+      </li>`;
   }).join("");
 
-  const copilotHref = CONFIG.copilotUrl ? esc(copilotLink("", "")) : "";
-  const pillar = (key, attrs) => `
-      <${attrs.tag} class="pillar" ${attrs.extra}>
-        <span class="eyebrow">${t(`pillar_${key}_tag`)}</span>
-        <h3>${t(`pillar_${key}_t`)}</h3>
-        <p>${t(`pillar_${key}_d`)}</p>
-      </${attrs.tag}>`;
-  const vet = SCENARIOS[0].veteran;
-
   $("#view").innerHTML = `
-    <div class="page home">
-      <section class="hero">
-        <div class="lockup"><span class="lockup-hi" lang="hi">अनुभव</span><span class="lockup-en">ANUBHAV</span></div>
-        <h1>${t("hero_title")}</h1>
-        <p>${t("hero_body")}</p>
-        <div class="compress">
-          <div><b>${vet.years}<small>${t("compress_unit_years")}</small></b><span>${t("compress_years")}</span></div>
-          <span class="arrow" aria-hidden="true">→</span>
-          <div><b>3<small>${t("compress_unit_minutes")}</small></b><span>${t("compress_minutes")}</span></div>
+    <div class="page">
+      <section class="unit-head">
+        <div>
+          <h1>${esc(L(CONFIG.unit.name))} <span class="mono unit-tag">${CONFIG.unit.tag}</span></h1>
+          <p class="muted">${t("home_intro")}</p>
         </div>
-      </section>
-
-      <nav class="pillars" aria-label="Anubhav">
-        ${pillar("copilot", copilotHref ? { tag: "a", extra: `href="${copilotHref}" target="_blank" rel="noopener"` } : { tag: "div", extra: "" })}
-        ${pillar("twin", { tag: "button", extra: 'type="button" data-scroll="drills"' })}
-        ${pillar("vault", { tag: "button", extra: 'type="button" data-scroll="vault"' })}
-        ${pillar("map", { tag: "a", extra: 'href="#map"' })}
-      </nav>
-
-      <section class="panel">
-        <h3>${t("profile_title")}</h3>
-        <div class="profile">
+        <div class="who">
           <div class="field">
             <label for="trainee-name">${t("profile_name")}</label>
             <input id="trainee-name" type="text" autocomplete="name" placeholder="${esc(t("profile_name_ph"))}" value="${esc(p.name)}">
@@ -214,40 +205,65 @@ function renderHome() {
             <label for="mentor">${t("profile_mentor")}</label>
             <select id="mentor">${mentorOptions}</select>
           </div>
+          <p id="name-msg" class="warn-text" hidden>${t("name_needed")}</p>
         </div>
-        <p id="name-msg" class="muted" hidden>${t("name_needed")}</p>
       </section>
 
-      <section class="section" id="drills">
-        <div class="section-head"><h2>${t("drills_title")}</h2><p class="muted">${t("drills_note")}</p></div>
-        <div class="grid-2">${cards}</div>
+      <section class="section">
+        <h2>${t("drills_title")}</h2>
+        <table class="register">
+          <thead><tr><th>${t("col_drill")}</th><th>${t("col_sop")}</th><th>${t("col_last")}</th><th>${t("col_record")}</th><th><span class="visually-hidden">${t("start_drill")}</span></th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
       </section>
 
-      <section class="section" id="vault">
-        <div class="section-head"><h2>${t("vault_title")}</h2><p class="muted">${t("vault_body")}</p></div>
-        <div class="grid-2">${vault}</div>
+      <section class="section">
+        <div class="section-head"><h2>${t("vault_from")}</h2><a href="#vault">${t("read_entries")}</a></div>
+        <ul class="log">${entries}</ul>
       </section>
 
-      <p class="site-note">${t("site_note")} ${CONFIG.unit.tag} · ${esc(L(CONFIG.unit.name))}</p>
+      <p class="site-note">${t("site_note")}</p>
     </div>`;
 
-  document.querySelectorAll("[data-scroll]").forEach((b) => {
-    b.onclick = () => document.getElementById(b.dataset.scroll)?.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
   const nameEl = $("#trainee-name");
-  nameEl.oninput = () => setProfile({ ...getProfile(), name: nameEl.value });
+  nameEl.oninput = () => {
+    setProfile({ ...getProfile(), name: nameEl.value });
+    if (nameEl.value.trim()) $("#name-msg").hidden = true;
+  };
   $("#mentor").onchange = (e) => setProfile({ ...getProfile(), mentorId: e.target.value });
-  document.querySelectorAll("[data-start]").forEach((b) => {
-    b.onclick = () => {
-      if (!getProfile().name.trim()) {
-        $("#name-msg").hidden = false;
-        nameEl.focus();
-        nameEl.scrollIntoView({ block: "center" });
-        return;
-      }
-      startDrill(b.dataset.start);
-    };
-  });
+  bindStartButtons();
+}
+
+function renderVault() {
+  const entries = SCENARIOS.map((s) => {
+    const v = s.veteran;
+    return `
+      <article class="entry">
+        <header class="entry-head"><span>${esc(L(v.incident))}</span></header>
+        <h2>${esc(v.name)}</h2>
+        <p class="muted">${esc(L(v.role))}</p>
+        <p class="entry-quote">“${esc(L(v.quote))}”</p>
+        <dl class="entry-notes">
+          <dt>${t("vault_noticed")}</dt><dd>${esc(L(v.noticed))}</dd>
+          <dt>${t("vault_chose")}</dt><dd>${esc(L(v.chose))}</dd>
+          <dt>${t("vault_why")}</dt><dd>${esc(L(v.why))}</dd>
+        </dl>
+        <div class="entry-foot">
+          <button class="btn" type="button" data-start="${s.id}">${t("vault_practise")}: ${esc(L(s.title))}</button>
+        </div>
+      </article>`;
+  }).join("");
+
+  $("#view").innerHTML = `
+    <div class="page narrow">
+      <section class="section">
+        <h1>${t("vault_title")}</h1>
+        <p class="muted">${t("vault_body")}</p>
+      </section>
+      ${entries}
+      <p class="site-note">${t("vault_sample")}</p>
+    </div>`;
+  bindStartButtons();
 }
 
 // ------------------------------------------------------------------ drill
