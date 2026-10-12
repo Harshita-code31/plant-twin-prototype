@@ -1,0 +1,46 @@
+{
+  "id": "SOP-GC-004",
+  "revision": "DRAFT-0.1",
+  "label": "Illustrative sample — not an approved procedure",
+  "title": "Gas leak at compressor skid",
+  "scenario": "gas_leak",
+  "keywords": [
+    "gas",
+    "leak",
+    "compressor",
+    "skid",
+    "flange",
+    "esd",
+    "evacuation",
+    "isolation",
+    "blowdown",
+    "emergency",
+    "alarm"
+  ],
+  "sections": [
+    {
+      "number": "1",
+      "heading": "Recognise and raise the alarm",
+      "en": "If a gas leak is suspected at the compressor skid or discharge flange, stop non-essential activity, raise the site emergency alarm and notify the control room with the location and observations. Do not approach, investigate or attempt to repair the leak.",
+      "hi": "कंप्रेसर स्किड या डिस्चार्ज फ्लैंज पर गैस रिसाव का संदेह हो तो गैर-ज़रूरी काम रोकें, साइट का आपातकालीन अलार्म सक्रिय करें और कंट्रोल रूम को स्थान व देखी गई स्थिति बताएं। रिसाव के पास जाकर जाँच या मरम्मत न करें।"
+    },
+    {
+      "number": "2",
+      "heading": "Emergency shutdown and isolation",
+      "en": "From a safe location, authorised personnel follow the site's emergency shutdown (ESD) procedure. The control room verifies isolation-valve status using approved indications. Do not operate valves or approach equipment unless authorised and the area is confirmed safe.",
+      "hi": "सुरक्षित स्थान से केवल अधिकृत कर्मचारी साइट की इमरजेंसी शटडाउन (ESD) प्रक्रिया अपनाएं। कंट्रोल रूम स्वीकृत संकेतों से आइसोलेशन वाल्व की स्थिति की पुष्टि करे। अनुमति और सुरक्षित क्षेत्र की पुष्टि के बिना वाल्व न चलाएं और उपकरण के पास न जाएं।"
+    },
+    {
+      "number": "3",
+      "heading": "Controlled blowdown",
+      "en": "Any blowdown or depressurisation is a controlled activity directed by authorised operations personnel under the approved site emergency plan. Never improvise or initiate blowdown based only on this training sample.",
+      "hi": "ब्लोडाउन या दबाव कम करने की कार्रवाई साइट की स्वीकृत आपात योजना के अनुसार केवल अधिकृत संचालन कर्मचारी कराएं। इस प्रशिक्षण नमूने के आधार पर स्वयं ब्लोडाउन शुरू न करें।"
+    },
+    {
+      "number": "4",
+      "heading": "Evacuate and account for people",
+      "en": "Move away from the leak, avoid ignition sources and evacuate by the site-designated safe route, favouring an upwind route where safe. Report to the assigned muster point, report missing personnel and do not re-enter until the incident controller gives clearance.",
+      "hi": "रिसाव से दूर हटें, आग लगने के स्रोतों से बचें और साइट के निर्धारित सुरक्षित मार्ग से निकलें; जहाँ सुरक्षित हो, हवा की विपरीत दिशा चुनें। निर्धारित मस्टर पॉइंट पर पहुँचकर उपस्थिति दर्ज कराएं, लापता लोगों की सूचना दें और अनुमति मिलने तक वापस न जाएं।"
+    }
+  ]
+}
