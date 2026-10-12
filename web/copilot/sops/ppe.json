@@ -1,0 +1,37 @@
+{
+  "id": "SOP-PPE-005",
+  "revision": "DRAFT-0.1",
+  "label": "Illustrative sample — not an approved procedure",
+  "title": "PPE selection and inspection",
+  "scenario": "ppe",
+  "keywords": [
+    "ppe",
+    "helmet",
+    "gloves",
+    "goggles",
+    "eye protection",
+    "respirator",
+    "shoes",
+    "personal protective equipment"
+  ],
+  "sections": [
+    {
+      "number": "1",
+      "heading": "Match PPE to the risk assessment",
+      "en": "Use the task risk assessment and site rules to identify required PPE. Routine examples may include approved helmet, safety footwear, eye protection and task-appropriate gloves; specialist respiratory or chemical protection requires specific authorisation and fit checks.",
+      "hi": "काम के जोखिम आकलन और साइट नियमों के अनुसार PPE चुनें। सामान्य उदाहरणों में स्वीकृत हेलमेट, सेफ्टी जूते, आँखों की सुरक्षा और काम के अनुसार दस्ताने शामिल हो सकते हैं। विशेष रेस्पिरेटर या रासायनिक सुरक्षा के लिए अलग अनुमति और फिट जाँच आवश्यक है।"
+    },
+    {
+      "number": "2",
+      "heading": "Inspect, fit and replace",
+      "en": "Inspect PPE before use for wear, damage, fit and expiry where relevant. Do not use damaged, ill-fitting or unapproved PPE. Report defects and get the correct replacement.",
+      "hi": "उपयोग से पहले PPE की घिसावट, नुकसान, फिट और जहाँ लागू हो एक्सपायरी जाँचें। खराब, गलत फिट या अस्वीकृत PPE न पहनें। कमी रिपोर्ट करके सही प्रतिस्थापन लें।"
+    },
+    {
+      "number": "3",
+      "heading": "PPE is not a substitute for controls",
+      "en": "Follow isolation, engineering safeguards, permit conditions and safe work instructions even when PPE is worn. Stop work and escalate if suitable PPE or other required controls are unavailable.",
+      "hi": "PPE पहनने के बावजूद आइसोलेशन, इंजीनियरिंग सुरक्षा, परमिट शर्तें और सुरक्षित कार्य निर्देश मानें। उचित PPE या दूसरी ज़रूरी सुरक्षा उपलब्ध न हो तो काम रोककर सूचना दें।"
+    }
+  ]
+}
