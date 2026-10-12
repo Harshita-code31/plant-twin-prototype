@@ -1,0 +1,36 @@
+{
+  "id": "SOP-PTW-001",
+  "revision": "DRAFT-0.1",
+  "label": "Illustrative sample — not an approved procedure",
+  "title": "Permit to Work (PTW)",
+  "scenario": "permit_to_work",
+  "keywords": [
+    "permit",
+    "ptw",
+    "hot work",
+    "confined space",
+    "work authorization",
+    "isolation",
+    "job safety"
+  ],
+  "sections": [
+    {
+      "number": "1",
+      "heading": "Obtain an authorised permit",
+      "en": "Before controlled or hazardous work, the work leader requests the correct permit-to-work (PTW) from the designated issuing authority. A work order alone is not a valid permit. Define scope, area, duration and responsible people.",
+      "hi": "नियंत्रित या जोखिम वाले काम से पहले कार्य प्रभारी नामित प्राधिकारी से सही परमिट-टू-वर्क (PTW) प्राप्त करे। केवल वर्क ऑर्डर परमिट नहीं होता। कार्य का दायरा, स्थान, अवधि और ज़िम्मेदार व्यक्तियों को दर्ज करें।"
+    },
+    {
+      "number": "2",
+      "heading": "Verify safeguards before work",
+      "en": "The issuer and receiver review hazards, relevant isolation/lockout, gas-testing requirements, PPE, rescue arrangements and any simultaneous operations. Work starts only when site-required checks and signatures are complete.",
+      "hi": "परमिट जारी करने वाला और लेने वाला कर्मचारी जोखिम, आइसोलेशन/लॉकआउट, गैस टेस्ट, PPE, बचाव की व्यवस्था और एक साथ चल रहे कार्यों की जाँच करें। साइट की सभी आवश्यक जाँच और हस्ताक्षर पूरे होने के बाद ही काम शुरू करें।"
+    },
+    {
+      "number": "3",
+      "heading": "Suspend or close correctly",
+      "en": "Stop and refer the permit back if scope, conditions, alarms or personnel change, or if the permit expires. On completion, make the area safe, record hand-back and obtain closure approval. Never reuse an expired permit.",
+      "hi": "काम का दायरा, परिस्थिति, अलार्म या कर्मचारियों में बदलाव हो, या परमिट समाप्त हो जाए, तो काम रोककर परमिट जारी करने वाले से संपर्क करें। काम के बाद क्षेत्र सुरक्षित करके हैंड-बैक दर्ज करें और क्लोज़र स्वीकृति लें। समाप्त परमिट का पुनः उपयोग न करें।"
+    }
+  ]
+}
