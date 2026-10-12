@@ -48,8 +48,22 @@ mixes your own attempts with rows marked **example**, which are generated sample
 Moving attempts to Supabase (the `supabase/` migrations from AbhyasAR already have workers and training attempts) is the
 next step for a multi-device pilot.
 
-## Swapping in real 3D models
+## The 3D model
 
-Each tappable piece of equipment is a `THREE.Group` named after its equipment id (`compressor`, `discharge_valve`, ...).
-To use a GLB from Sketchfab, Fab or an AI model generator, load it with three.js's `GLTFLoader` and add it to that group
-in `js/twin.js` in place of the primitive shapes. Picking, labels and highlighting keep working.
+`models/booster_skid.glb` is the fuel gas booster compressor skid, converted from the source IGES via FreeCAD's glTF
+export and reduced with [gltf-transform](https://gltf-transform.dev/) (flatten, join by material, weld, simplify to
+~12%, quantize): 1.96 M triangles in 13,063 pieces became ~247 k triangles in 27 meshes, 5.2 MB.
+
+```sh
+npx @gltf-transform/cli@4.1.1 flatten compressor.gltf s1.glb
+npx @gltf-transform/cli@4.1.1 join s1.glb s2.glb
+npx @gltf-transform/cli@4.1.1 weld s2.glb s3.glb
+npx @gltf-transform/cli@4.1.1 simplify s3.glb s4.glb --ratio 0.12 --error 0.0008
+npx @gltf-transform/cli@4.1.1 prune s4.glb s5.glb
+npx @gltf-transform/cli@4.1.1 quantize s5.glb booster_skid.glb
+```
+
+The CAD has no part names, so tappable equipment is defined by hit boxes in metres (`MODEL_TARGETS` in `js/twin.js`),
+along with the leak point, stack tip and gas detector position (`MODEL_POINTS`). `MODEL_ROTATION_X` and `MODEL_OFFSET`
+stand the Z-down CAD upright and centre it. If the model fails to load, `buildPrimitiveSkid()` draws a stand-in so the
+drills still run.

@@ -787,7 +787,7 @@ window.addEventListener("hashchange", () => {
   else route();
 });
 // Lets automated checks select equipment without aiming taps at the 3D scene.
-window.anubhavDebug = { app, pick: (id) => onPick(id) };
+window.anubhavDebug = { app, pick: (id) => onPick(id), modelState: () => app.twin?.modelState };
 
 renderAppbar();
 watchTheme();
