@@ -1,0 +1,101 @@
+{
+  "notice": "External documents below are publicly verifiable safety references, NOT the approved plant SOPs and NOT proof of each instruction in these illustrative examples. OSHA references are US regulations; applicability in India varies. OISD standard-catalogue links verify a standard exists but do not supply its full text. Site approval and equipment-specific procedures are still necessary.",
+  "entries": {
+    "SOP-GC-004": [
+      {
+        "publisher": "OSHA (US)",
+        "title": "29 CFR 1910.38(c) — emergency reporting, evacuation, accountability",
+        "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.38",
+        "type": "Accessible official text",
+        "relevance": "General emergency-plan framework, not an approved compressor-skid leak procedure."
+      },
+      {
+        "publisher": "OISD (India)",
+        "title": "OISD-STD-116 — fire protection for oil/gas processing plants",
+        "url": "https://oisd.gov.in/oisd-standards",
+        "type": "Official catalogue listing; full standard not supplied",
+        "relevance": "Relevant standard to consult; no specific steps copied or asserted from an unavailable text."
+      },
+      {
+        "publisher": "OISD (India)",
+        "title": "Oil & gas incident case studies, including compressor-house incidents",
+        "url": "https://oisd.gov.in/case-studies",
+        "type": "Official case-study index",
+        "relevance": "Context for training scenarios, not an operating SOP."
+      }
+    ],
+    "SOP-CP-002": [
+      {
+        "publisher": "OSHA (US)",
+        "title": "29 CFR 1910.119(f) — written operating procedures and emergency shutdown/startup phases",
+        "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.119",
+        "type": "Accessible official text",
+        "relevance": "Sets general principles; does not specify compressor first-out troubleshooting, lube-oil checks or restart clearance for a particular plant."
+      },
+      {
+        "publisher": "OISD (India)",
+        "title": "Compressor-house fire and other OISD incident case studies",
+        "url": "https://oisd.gov.in/case-studies",
+        "type": "Official case-study index",
+        "relevance": "Incident-learning context, not a replacement for an equipment manufacturer's manual."
+      }
+    ],
+    "SOP-PTW-001": [
+      {
+        "publisher": "OISD (India)",
+        "title": "OISD-STD-105 — Work Permit System (August 2023 edition in catalogue)",
+        "url": "https://oisd.gov.in/oisd-standards",
+        "type": "Official catalogue listing; full standard not supplied",
+        "relevance": "India-specific reference to procure and review; these demo sections are not claimed to reproduce OISD's text."
+      },
+      {
+        "publisher": "OSHA (US)",
+        "title": "29 CFR 1910.119(f)(4) — safe work practices",
+        "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.119",
+        "type": "Accessible official text",
+        "relevance": "General work-control principles, not a site's issued permit."
+      }
+    ],
+    "SOP-GT-003": [
+      {
+        "publisher": "OSHA (US)",
+        "title": "29 CFR 1910.146(d)(5) — atmospheric testing for permit-required confined spaces",
+        "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.146",
+        "type": "Accessible official text",
+        "relevance": "Confined-space context only. OSHA's confined-space hazard thresholds are NOT necessarily plant gas-detector alarm setpoints."
+      },
+      {
+        "publisher": "OSHA (US)",
+        "title": "29 CFR 1910.146 Appendix B — procedures for atmospheric testing",
+        "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.146AppB",
+        "type": "Accessible official text",
+        "relevance": "Test-equipment and testing-practice background, not the facility's alarm matrix."
+      }
+    ],
+    "SOP-PPE-005": [
+      {
+        "publisher": "OSHA (US)",
+        "title": "29 CFR 1910 Subpart I Appendix B — PPE hazard assessment and selection",
+        "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910SubpartIAppB",
+        "type": "Accessible official guidance",
+        "relevance": "Supports selection principles; actual PPE must follow plant-specific risk assessment."
+      }
+    ],
+    "SOP-EC-006": [
+      {
+        "publisher": "OSHA (US)",
+        "title": "29 CFR 1910.38(c) — emergency reporting, evacuation and accounting for personnel",
+        "url": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.38",
+        "type": "Accessible official text",
+        "relevance": "General planning requirements; site alarm channels and muster procedures remain site-specific."
+      },
+      {
+        "publisher": "OISD (India)",
+        "title": "OISD-STD-116 — fire protection for processing plants",
+        "url": "https://oisd.gov.in/oisd-standards",
+        "type": "Official catalogue listing; full standard not supplied",
+        "relevance": "Relevant Indian standards catalogue, not a reproduced approved communication plan."
+      }
+    ]
+  }
+}
