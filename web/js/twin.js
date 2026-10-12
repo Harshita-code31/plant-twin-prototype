@@ -14,7 +14,8 @@ import { EQUIPMENT } from "./scenarios.js";
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z);
 const WIND = V(1.1, 0, 0); // blowing from Muster A (west, -x) towards Muster B (east, +x)
-const MODEL_URL = "models/booster_skid.glb";
+// Tried in order. The .gltf.json copy (same model, buffers embedded) is for hosts that do not serve .glb.
+const MODEL_URLS = ["models/booster_skid.glb", "models/booster_skid.gltf.json"];
 
 // The CAD file is Z-down with its origin at the outlet end; this puts it upright, base on the
 // ground and centred on the pad. Units are metres.
@@ -374,23 +375,23 @@ export class Twin {
   }
 
   loadModel() {
-    this._ready = new Promise((resolve) => {
-      new GLTFLoader().load(
-        MODEL_URL,
-        (gltf) => {
-          this.buildModelSkid(gltf.scene);
-          this.modelState = "model";
-          resolve(this.modelState);
-        },
-        undefined,
-        (err) => {
-          console.warn("Twin: could not load the CAD model, using the stand-in skid.", err);
-          this.buildPrimitiveSkid();
-          this.modelState = "fallback";
-          resolve(this.modelState);
-        },
-      );
-    });
+    const loader = new GLTFLoader();
+    const tryLoad = (i) =>
+      new Promise((resolve, reject) => loader.load(MODEL_URLS[i], resolve, undefined, reject)).catch((err) => {
+        if (i + 1 < MODEL_URLS.length) return tryLoad(i + 1);
+        throw err;
+      });
+    this._ready = tryLoad(0)
+      .then((gltf) => {
+        this.buildModelSkid(gltf.scene);
+        this.modelState = "model";
+      })
+      .catch((err) => {
+        console.warn("Twin: could not load the CAD model, using the stand-in skid.", err);
+        this.buildPrimitiveSkid();
+        this.modelState = "fallback";
+      })
+      .then(() => this.modelState);
   }
 
   buildModelSkid(model) {
